@@ -8,12 +8,30 @@ import { Provider } from 'react-redux';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
-    typography: {
-        h4: {
-            fontFamily: 'Lobster, cursive',
-            fontWeight: 'bold'
+    shadows: ['none'],
+    palette: {
+        primary: {
+            main: '#4ca2cd',
+            contrastText: '#ffffff'
         }
     },
+    typography: {
+        h4: {
+            fontFamily: 'Pacifico, cursive',
+            fontWeight: 'normal',
+            marginTop: 10,
+            marginBottom: 15
+        }
+    },
+    overrides: {
+        MuiButton: {
+            root: {
+                background: '#67b26f',
+                background: 'linear-gradient(45deg, #67b26f, #4ca2cd)',
+                fontWeight: 'bold'
+            }
+        }
+    }
 });
 
 ReactDOM.render(

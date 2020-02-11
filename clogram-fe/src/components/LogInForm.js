@@ -12,7 +12,8 @@ const useStyles = makeStyles({
         width: '75%'
     },
     button: {
-        width: '75%'
+        width: '30%',
+        marginTop: 10
     }
 });
 
@@ -23,7 +24,7 @@ const LogInForm = () => {
         <FormControl className={classes.formControl}>
             <TextField id="login-username" className={classes.textField} placeholder="Username" variant="outlined" size="small" />
             <TextField id="login-password" className={classes.textField} placeholder="Password" variant="outlined" size="small" />
-            <Button variant="contained" color="primary">
+            <Button className={classes.button} variant="contained" color="primary">
                 Log In
             </Button>
         </FormControl>

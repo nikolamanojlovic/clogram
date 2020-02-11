@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, Button } from '@material-ui/core';
 import LogInForm from "../components/LogInForm";
@@ -6,11 +6,18 @@ import SignUpFrom from '../components/SignUpForm';
 
 const useStyles = makeStyles({
     root: {
-        maxWidth: "25%",
-        height: 600,
+        maxWidth: '25%',
+        height: '80%'
     },
-    controls: {
-        margin: 5
+    content: {
+        padding: 5
+    },
+    button: {
+        fontWeight: 'normal',
+        background: 'transparent'
+    },
+    buttonSelected: {
+        background: 'transparent'
     }
 });
 
@@ -20,7 +27,7 @@ const LogInPage = () => {
 
     return (
         <Card className={classes.root} variant="outlined">
-            <CardContent>
+            <CardContent className={classes.content}>
                 <Typography variant="h4" gutterBottom>
                     Clogram
                 </Typography>
@@ -28,12 +35,12 @@ const LogInPage = () => {
                     Instagram alike app developed as project for Napredne softverske tehnologije
                 </Typography>
             </CardContent>
-            <CardContent className={classes.controls}>
-                <Button onClick={() => setShowLogin(true)}>Log in</Button>
-                <Button onClick={() => setShowLogin(false)}>Sign up</Button>
+            <CardContent className={classes.content}>
+                <Button className={showLogin ? classes.buttonSelected : classes.button} onClick={() => setShowLogin(true)}>Log in</Button>
+                <Button className={showLogin ? classes.button : classes.buttonSelected} onClick={() => setShowLogin(false)}>Sign up</Button>
             </CardContent>
-            <CardContent className={classes.controls}>
-                {showLogin ? <LogInForm/> : <SignUpFrom/>}
+            <CardContent className={classes.content}>
+                {showLogin ? <LogInForm /> : <SignUpFrom />}
             </CardContent>
         </Card>
     );
