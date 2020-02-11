@@ -42,6 +42,9 @@ const LogInPage = () => {
             <CardContent className={classes.content}>
                 {showLogin ? <LogInForm /> : <SignUpFrom />}
             </CardContent>
+            <CardContent>
+                <Typography variant="caption" gutterBottom>Developed by Nikola Manojlović</Typography>
+            </CardContent>
         </Card>
     );
 }

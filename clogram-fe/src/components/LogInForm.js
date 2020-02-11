@@ -23,7 +23,7 @@ const LogInForm = () => {
     return (
         <FormControl className={classes.formControl}>
             <TextField id="login-username" className={classes.textField} placeholder="Username" variant="outlined" size="small" />
-            <TextField id="login-password" className={classes.textField} placeholder="Password" variant="outlined" size="small" />
+            <TextField id="login-password" className={classes.textField} placeholder="Password" variant="outlined" type="password" size="small" />
             <Button className={classes.button} variant="contained" color="primary">
                 Log In
             </Button>
