@@ -8,6 +8,7 @@
                  [compojure "1.6.1"]
                  [http-kit "2.3.0"]
                  [ring/ring-defaults "0.3.2"]
+                 [ring-cors "0.1.13"]
                  [org.clojure/data.json "0.2.6"]
                  [seancorfield/next.jdbc "1.0.13"]]
 
