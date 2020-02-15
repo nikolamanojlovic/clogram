@@ -3,7 +3,7 @@ import './App.css';
 import { useSelector } from "react-redux";
 import LogInPage from "./pages/LogInPage";
 import NavigationBar from "./components/NavigationBar";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
