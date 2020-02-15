@@ -8,8 +8,8 @@
 
 ;; Application routs
 (defroutes app
-  (POST "/" [] "auth/login")
-  (route/not-found "Error, page not found!"))
+  (POST "/auth/login" [] "some")
+  (route/not-found "Error,  not found!"))
 
 ;; Main routs
 (defn -main
