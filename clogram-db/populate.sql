@@ -1,0 +1,1 @@
+INSERT INTO user VALUES ('nikolam', 'Nikola', 'Manojlovic', 'nikola@email.com', 'nikola123', NULL);
