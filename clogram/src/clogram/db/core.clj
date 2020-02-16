@@ -3,7 +3,7 @@
 ;; database url definition
 (def db {:dbtype "mysql"
          :dbname "clogram"
-         :host "172.17.0.2"
+         :host "0.0.0.0"
          :port 3306
          :user "root"
          :password "root"})

@@ -9,7 +9,6 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
   root: {
     textAlign: 'center',
-    background: '#67b26f',
     background: 'linear-gradient(45deg, #67b26f, #4ca2cd)'
   }
 });

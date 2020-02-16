@@ -1,0 +1,7 @@
+version: '3.7'
+
+services: 
+    mysql-database:
+        build: ./clogram-db/
+        ports: 
+           - 3306:3306
