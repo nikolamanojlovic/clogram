@@ -5,13 +5,15 @@
    [ring.middleware.defaults :refer :all]
    [compojure.route :as route]
    [clogram.api.auth :as auth]
+   [ring.util.response :as response-utils]
+   [clojure.data.json :as json]
    [ring.middleware.cors :refer [wrap-cors]])
   (:gen-class))
 
 ;; Application routs
 (defroutes app
-  (POST "/auth/login" req (auth/login req))
-  (route/not-found "Error,  not found!"))
+  (POST "/auth/login" req  (response-utils/response (json/write-str (auth/login req))))
+  (route/not-found (response-utils/not-found "Page not found.")))
 
 ;; Fixes CORS problem
 ;; Main routs

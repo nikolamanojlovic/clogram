@@ -10,6 +10,7 @@
                  [ring "1.7.0"]
                  [ring/ring-defaults "0.3.2"]
                  [ring-cors "0.1.13"]
+                 [ring/ring-json "0.5.0"]
                  [org.clojure/data.json "0.2.6"]
                  [mysql/mysql-connector-java "5.1.6"]
                  [seancorfield/next.jdbc "1.0.13"]]
