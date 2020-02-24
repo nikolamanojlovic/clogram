@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
 import { logIn } from '../services/userService';
+import ErrorMessage from './ErrorMessage';
+import { clearMessageAction } from '../actions/messageActions';
 
 const useStyles = makeStyles({
     formControl: {
@@ -20,6 +22,7 @@ const useStyles = makeStyles({
 
 const _logIn = (e, username, password) => {
     e.preventDefault();
+    clearMessageAction();
     logIn(username, password);
 }
 
@@ -36,6 +39,7 @@ const LogInForm = () => {
                 value={values.username} onChange={(e) => setValues({ username: e.target.value, password: values.password })} />
             <TextField id="login-password" className={classes.textField} placeholder="Password" variant="outlined" type="password" size="small"
                 value={values.password} onChange={(e) => setValues({ username: values.username, password: e.target.value })} />
+            <ErrorMessage/>
             <Button className={classes.button} variant="contained" color="primary" type="submit" onClick={(e) => _logIn(e, values.username, values.password)}>
                 Log In
             </Button>
