@@ -22,7 +22,6 @@ const useStyles = makeStyles({
 
 const _logIn = (e, username, password) => {
     e.preventDefault();
-    clearMessageAction();
     logIn(username, password);
 }
 

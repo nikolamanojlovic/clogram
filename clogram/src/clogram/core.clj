@@ -12,7 +12,8 @@
   (:gen-class))
 
 (defroutes app
-  (POST "/auth/login" req (auth/login req))
+  (POST "/auth/login" req (auth/log-in req))
+  (POST "/auth/signup" req (auth/sign-up req))
   (route/not-found (response-utils/not-found "Page not found.")))
 
 ;; Fixes CORS problem

@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, Button } from '@material-ui/core';
 import LogInForm from "../components/LogInForm";
 import SignUpFrom from '../components/SignUpForm';
+import { clearMessageAction } from '../actions/messageActions';
+import { store } from '../store';
 
 const useStyles = makeStyles({
     root: {
@@ -22,8 +24,13 @@ const useStyles = makeStyles({
 });
 
 const LogInPage = () => {
-    const [showLogin, setShowLogin] = useState(true);
+    const [showLogin, setShowLogIn] = useState(true);
     const classes = useStyles();
+
+    const _setShowLogIn = (value) => {
+        store.dispatch(clearMessageAction());
+        setShowLogIn(value);
+    }
 
     return (
         <Card className={classes.root} variant="outlined">
@@ -36,8 +43,8 @@ const LogInPage = () => {
                 </Typography>
             </CardContent>
             <CardContent className={classes.content}>
-                <Button className={showLogin ? classes.buttonSelected : classes.button} onClick={() => setShowLogin(true)}>Log in</Button>
-                <Button className={showLogin ? classes.button : classes.buttonSelected} onClick={() => setShowLogin(false)}>Sign up</Button>
+                <Button className={showLogin ? classes.buttonSelected : classes.button} onClick={() => _setShowLogIn(true)}>Log in</Button>
+                <Button className={showLogin ? classes.button : classes.buttonSelected} onClick={() => _setShowLogIn(false)}>Sign up</Button>
             </CardContent>
             <CardContent className={classes.content}>
                 {showLogin ? <LogInForm /> : <SignUpFrom />}

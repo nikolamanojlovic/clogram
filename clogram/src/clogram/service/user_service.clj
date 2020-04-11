@@ -4,3 +4,7 @@
 (defn get-user-by-id-and-password "Retrives user by id and password, returns nil if non found" [username password]
   (let [user (user-dao/get-user-by-username-and-password username password)]
     (if-not (nil? user) user (throw (Exception. "login.general.error")))))
+
+(defn create-user "Creates user" [username firstName lastName email password]
+(let [user (user-dao/create-user username firstName lastName email password)]
+  (if-not (nil? user) user (throw (Exception. "login.general.error")))))

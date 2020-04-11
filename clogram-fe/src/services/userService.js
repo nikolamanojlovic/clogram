@@ -20,3 +20,19 @@ export const logIn = (username, password) => {
 export const logOut = () => {
     store.dispatch(userLogOutAction());
 }
+
+export const signUp = (username, firstName, lastName, email, password) => {
+    store.dispatch(clearMessageAction());
+    
+    axios.post(API + 'auth/signup', {
+        username: username,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password
+    }).then((response) => {
+        store.dispatch(userLogInAction(response.data));
+    }).catch((error) => {
+        store.dispatch(addMessageAction(error.response.data));
+    })
+}
