@@ -13,7 +13,7 @@
   (let [inputs (get-parameters req)]
     (try
       (response-utils/response (json/write-str (user-service/get-user-by-id-and-password (get inputs :username "") (get inputs :password ""))))
-      (catch  Exception e (response-utils/status (response-utils/response (.getMessage e)) 401)))))
+      (catch  Exception e (response-utils/status (response-utils/response "login.general.error") 401)))))
 
 
 (defn sign-up "Signs up users based on provided information" [req]
