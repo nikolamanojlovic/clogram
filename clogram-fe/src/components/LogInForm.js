@@ -39,7 +39,7 @@ const LogInForm = () => {
                 value={values.username} onChange={(e) => setValues({ username: e.target.value, password: values.password })} />
             <TextField id="login-password" className={classes.textField} placeholder="Password" variant="outlined" type="password" size="small"
                 value={values.password} onChange={(e) => setValues({ username: values.username, password: e.target.value })} />
-            <ErrorMessage/>
+            <ErrorMessage />
             <Button className={classes.button} variant="contained" color="primary" type="submit" onClick={(e) => _logIn(e, values.username, values.password)}>
                 Log In
             </Button>

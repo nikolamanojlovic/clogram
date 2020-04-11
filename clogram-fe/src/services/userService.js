@@ -1,15 +1,18 @@
 import axios from 'axios';
 import { API } from '../helpers/constants';
 import { userLogInAction } from '../actions/userActions';
-import { addMessageAction } from '../actions/messageActions';
+import { addMessageAction, clearMessageAction } from '../actions/messageActions';
+import { store } from '../store';
 
 export const logIn = (username, password) => {
+    store.dispatch(clearMessageAction());
+    
     axios.post(API + 'auth/login', {
         username: username,
         password: password
     }).then((response) => {
-        userLogInAction(response.data)
+        userLogInAction(response.data);
     }).catch((error) => {
-        addMessageAction(error.data)
+        store.dispatch(addMessageAction(error.response.data));
     })
 }

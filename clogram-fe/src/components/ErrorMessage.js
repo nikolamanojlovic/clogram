@@ -1,21 +1,23 @@
-import React,{ Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from "@material-ui/core";
+import Alert from '@material-ui/lab/Alert';
 import { MESSAGES } from "../helpers/messages";
 
 const useStyles = makeStyles({
     error: {
+        width: "60%",
+        margin: "auto"
     }
 });
 
 const ErrorMessage = () => {
     const classes = useStyles();
-    const messageKey = useSelector(state => state.message);
+    const messageKey = useSelector(state => state.messageReducer.message);
 
     return (
         <Fragment>
-            {messageKey ? <Typography className={classes.error}> {MESSAGES.get(messageKey)} </Typography> : <span />}
+            {messageKey ? <Alert className={classes.error} severity="error">{MESSAGES.get(messageKey)}</Alert> : <span />}
         </Fragment>
     );
 }

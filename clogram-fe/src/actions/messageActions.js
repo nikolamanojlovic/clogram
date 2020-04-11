@@ -1,15 +1,15 @@
 export const ADD_MESSAGE = 'ADD_MESSAGE'
 export const CLEAR_MESSAGE = 'CLEAR_MESSAGE'
 
-export const addMessageAction = (message) => dispatch => {
-    dispatch({
+export const addMessageAction = (message) => {
+    return {
         type: ADD_MESSAGE,
         payload: message
-    })
+    }
 }
 
-export const clearMessageAction = () => dispatch => {
-    dispatch({
-        type: CLEAR_MESSAGE,
-    })
+export const clearMessageAction = () => {
+    return {
+        type: CLEAR_MESSAGE
+    }
 }
