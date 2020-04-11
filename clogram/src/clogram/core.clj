@@ -11,17 +11,6 @@
    [ring.middleware.json :refer [wrap-json-response]])
   (:gen-class))
 
-;; Application routs
-;;(defroutes app
- ;; (POST "/auth/login" req
-   ;; (try (/ (response-utils/response (json/write-str (auth/login req)))) (catch Exception e {:status 401 :body (.getMessage e)})))
-  ;;(route/not-found (response-utils/not-found "Page not found.")))
-
-;;(defroutes app
-  ;;(POST "/auth/login" req
-   ;; (response-utils/response (json/write-str (auth/login req))))
-  ;;(route/not-found (response-utils/not-found "Page not found.")))
-
 (defroutes app
   (POST "/auth/login" req (auth/login req))
   (route/not-found (response-utils/not-found "Page not found.")))
