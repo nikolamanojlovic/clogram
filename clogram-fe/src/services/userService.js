@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API } from '../helpers/constants';
-import { userLogInAction } from '../actions/userActions';
+import { userLogInAction, userLogOutAction } from '../actions/userActions';
 import { addMessageAction, clearMessageAction } from '../actions/messageActions';
 import { store } from '../store';
 
@@ -11,8 +11,12 @@ export const logIn = (username, password) => {
         username: username,
         password: password
     }).then((response) => {
-        userLogInAction(response.data);
+        store.dispatch(userLogInAction(response.data));
     }).catch((error) => {
         store.dispatch(addMessageAction(error.response.data));
     })
+}
+
+export const logOut = () => {
+    store.dispatch(userLogOutAction());
 }

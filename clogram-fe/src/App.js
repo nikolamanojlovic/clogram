@@ -5,6 +5,7 @@ import LogInPage from "./pages/LogInPage";
 import NavigationBar from "./components/NavigationBar";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+import FeedPage from './pages/FeedPage';
 
 const useStyles = makeStyles({
   root: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles({
 });
 
 const App = () => {
-  const user = useSelector(state => state.user);
+  const user = useSelector(state => state.userReducer.user);
   const classes = useStyles();
 
   return (
@@ -28,7 +29,7 @@ const App = () => {
         justify='center'
         style={{ minHeight: '100vh' }}
       >
-        {user ? <p>filled</p> : <LogInPage />}
+        {user ? <FeedPage/> : <LogInPage />}
       </Grid>
     </div>
   );
