@@ -7,8 +7,7 @@
    [clogram.service.user-service :as user-service]))
 
 (defn- get-parameters [req] (let [body (request-utils/body-string req)]
-  (if-not (clojure.string/blank? body)
-    (json/read-str body :key-fn keyword) {})))
+                              (if-not (clojure.string/blank? body) (json/read-str body :key-fn keyword) {})))
 
 (defn log-in "Logs users based on credentials" [req]
   (let [inputs (get-parameters req)]
@@ -18,8 +17,8 @@
 
 
 (defn sign-up "Signs up users based on provided information" [req]
-(let [inputs (get-parameters req)]
-  (try
-    (response-utils/response
-     (json/write-str (user-service/create-user (get inputs :username "") (get inputs :firstName "") (get inputs :lastName "") (get inputs :email "") (get inputs :password ""))))
-    (catch  Exception e (response-utils/status (response-utils/response (.getMessage e)) 400)))))
+  (let [inputs (get-parameters req)]
+    (try
+      (response-utils/response
+       (json/write-str (user-service/create-user (get inputs :username "") (get inputs :firstName "") (get inputs :lastName "") (get inputs :email "") (get inputs :password ""))))
+      (catch Exception e (response-utils/status (response-utils/response "sign.up.general.error") 400)))))

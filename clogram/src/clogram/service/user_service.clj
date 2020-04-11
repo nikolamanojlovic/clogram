@@ -6,5 +6,4 @@
     (if-not (nil? user) user (throw (Exception. "login.general.error")))))
 
 (defn create-user "Creates user" [username firstName lastName email password]
-(let [user (user-dao/create-user username firstName lastName email password)]
-  (if-not (nil? user) user (throw (Exception. "login.general.error")))))
+  (user-dao/create-user username firstName lastName email password))

@@ -23,7 +23,6 @@ const useStyles = makeStyles({
 });
 
 const _signUp = (e, username, firstName, lastName, email, password) => {
-    console.log([username, firstName, lastName, email, password])
     e.preventDefault();
     clearMessageAction();
     signUp(username, firstName, lastName, email, password);
