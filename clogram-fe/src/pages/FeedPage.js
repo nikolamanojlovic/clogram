@@ -6,7 +6,8 @@ import SignUpFrom from '../components/SignUpForm';
 
 const useStyles = makeStyles({
     root: {
-        maxWidth: '25%',
+        minWidth: '100%',
+        minHeight: '100%',
         backgroundColor: '#FFFFFF'
     }
 });
