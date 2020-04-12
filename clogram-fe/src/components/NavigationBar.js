@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { AccountCircleOutlined, AccountCircle, ExitToAppOutlined, AddPhotoAlternateOutlined, HomeOutlined, Home } from '@material-ui/icons';
+import { AccountCircleOutlined, AccountCircle, ExitToAppOutlined, AddPhotoAlternateOutlined, HomeOutlined, Home, AddPhotoAlternate } from '@material-ui/icons';
 import SearchForm from './SearchForm';
 import { logOut } from '../services/userService';
-import { FEED_PAGE, PROFILE_PAGE } from '../helpers/constants';
+import { FEED_PAGE, PROFILE_PAGE, UPLOAD_IMAGE_PAGE } from '../helpers/constants';
 import { store } from '../store';
 import { changePageAction } from '../actions/pageActions';
 
@@ -54,8 +54,8 @@ const TopNavigation = () => {
                 <Typography className={classes.logo} variant='h4' onClick={(e) => _changePage(e, FEED_PAGE)}>Clogram</Typography>
                 <SearchForm />
                 <ButtonGroup className={classes.buttonGroup}>
-                    <IconButton>
-                        <AddPhotoAlternateOutlined className={classes.icon} />
+                    <IconButton onClick={(e) => _changePage(e, UPLOAD_IMAGE_PAGE)}>
+                        {currentPage === UPLOAD_IMAGE_PAGE ? <AddPhotoAlternate className={classes.icon} /> : <AddPhotoAlternateOutlined className={classes.icon} />}
                     </IconButton>
                     <IconButton onClick={(e) => _changePage(e, FEED_PAGE)}>
                         {currentPage === FEED_PAGE ? <Home className={classes.icon} /> : <HomeOutlined className={classes.icon} />}

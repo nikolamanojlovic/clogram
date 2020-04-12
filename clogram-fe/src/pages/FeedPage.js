@@ -4,14 +4,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, Button, Paper } from '@material-ui/core';
 import LogInForm from "../components/LogInForm";
 import SignUpFrom from '../components/SignUpForm';
-import { FEED_PAGE, PROFILE_PAGE } from '../helpers/constants';
+import { FEED_PAGE, PROFILE_PAGE, UPLOAD_IMAGE_PAGE } from '../helpers/constants';
 import { Grid } from "@material-ui/core";
 import ProfilePageContent from './ProfilePageContent';
+import UploadImagePage from './UploadImagePage';
 
 const _renderPage = (page) => {
     switch (page) {
         case PROFILE_PAGE:
-            return <ProfilePageContent/>;
+            return <ProfilePageContent />;
+        case UPLOAD_IMAGE_PAGE:
+            return <UploadImagePage />;
         default:
             return <div><Paper>FEED_PAGE</Paper><Paper>PROFILE_PAGE</Paper></div>;
     }
