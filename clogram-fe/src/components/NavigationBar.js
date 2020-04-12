@@ -1,10 +1,14 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import { useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { AccountCircleOutlined, ExitToAppOutlined, AddPhotoAlternateOutlined } from '@material-ui/icons';
+import { AccountCircleOutlined, AccountCircle, ExitToAppOutlined, AddPhotoAlternateOutlined, HomeOutlined, Home } from '@material-ui/icons';
 import SearchForm from './SearchForm';
 import { logOut } from '../services/userService';
+import { FEED_PAGE, PROFILE_PAGE } from '../helpers/constants';
+import { store } from '../store';
+import { changePageAction } from '../actions/pageActions';
 
 const useStyles = makeStyles({
     root: {
@@ -20,6 +24,8 @@ const useStyles = makeStyles({
         marginLeft: 5,
         paddingLeft: 5,
         color: '#000000',
+        cursor: 'pointer',
+        userSelect: 'none'
     },
     buttonGroup: {
     },
@@ -28,25 +34,34 @@ const useStyles = makeStyles({
     }
 });
 
+const _changePage = (e, page) => {
+    e.preventDefault();
+    store.dispatch(changePageAction(page));
+}
+
 const _logOut = (e) => {
     e.preventDefault();
     logOut();
 }
 
 const TopNavigation = () => {
+    const currentPage = useSelector(state => state.pageReducer.currentPage);
     const classes = useStyles();
 
     return (
         <AppBar className={classes.root} position="sticky">
             <Toolbar className={classes.toolbar}>
-                <Typography className={classes.logo} variant='h4'>Clogram</Typography>
+                <Typography className={classes.logo} variant='h4' onClick={(e) => _changePage(e, FEED_PAGE)}>Clogram</Typography>
                 <SearchForm />
                 <ButtonGroup className={classes.buttonGroup}>
                     <IconButton>
                         <AddPhotoAlternateOutlined className={classes.icon} />
                     </IconButton>
-                    <IconButton>
-                        <AccountCircleOutlined className={classes.icon} />
+                    <IconButton onClick={(e) => _changePage(e, FEED_PAGE)}>
+                        {currentPage === FEED_PAGE ? <Home className={classes.icon} /> : <HomeOutlined className={classes.icon} />}
+                    </IconButton>
+                    <IconButton onClick={(e) => _changePage(e, PROFILE_PAGE)}>
+                        {currentPage === PROFILE_PAGE ? <AccountCircle className={classes.icon} /> : <AccountCircleOutlined className={classes.icon} />}
                     </IconButton>
                     <IconButton onClick={(e) => _logOut(e)}>
                         <ExitToAppOutlined className={classes.icon} />
