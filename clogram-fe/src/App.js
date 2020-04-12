@@ -10,7 +10,15 @@ import FeedPage from './pages/FeedPage';
 const useStyles = makeStyles({
   root: {
     textAlign: 'center',
+    height: '100vh',
+    overflowX: 'hidden',
+    overflowY: 'hidden',
     background: 'linear-gradient(45deg, #67b26f, #4ca2cd)'
+  },
+  grid: {
+    minHeight: '100%',
+    overflowX: 'hidden',
+    overflowY: 'hidden'
   }
 });
 
@@ -21,15 +29,14 @@ const App = () => {
   return (
     <div className="App" className={classes.root}>
       {user ? <NavigationBar /> : <Fragment />}
-      <Grid
+      <Grid className={classes.grid}
         container
         spacing={0}
         direction='column'
+        justify='flex-start'
         alignItems='center'
-        justify='center'
-        style={{ minHeight: '100vh' }}
       >
-        {user ? <FeedPage/> : <LogInPage />}
+        {user ? <FeedPage /> : <LogInPage />}
       </Grid>
     </div>
   );

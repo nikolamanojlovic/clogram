@@ -8,6 +8,7 @@ import { store } from '../store';
 
 const useStyles = makeStyles({
     root: {
+        margin: 'auto',
         maxWidth: '25%',
         height: '80%'
     },
