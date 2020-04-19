@@ -6,10 +6,10 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { AccountCircleOutlined, AccountCircle, ExitToAppOutlined, AddPhotoAlternateOutlined, HomeOutlined, Home, AddPhotoAlternate } from '@material-ui/icons';
 import SearchForm from './SearchForm';
 import { logOut } from '../services/userService';
-import { FEED_PAGE, PROFILE_PAGE, UPLOAD_IMAGE_PAGE } from '../helpers/constants';
+import { FEED_PAGE, PROFILE_PAGE } from '../helpers/constants';
 import { store } from '../store';
 import { changePageAction } from '../actions/pageActions';
-import UploadImagePopover from './UploadImagePopover';
+import { createPost } from '../services/postService';
 
 const useStyles = makeStyles({
     root: {
@@ -69,19 +69,45 @@ const _logOut = (e) => {
     logOut();
 }
 
+const _share = (e, username, description) => {
+    e.preventDefault();
+    
+    let image = document.getElementById("post-image").files[0];
+    createPost(username, image, description);
+}
+
 const TopNavigation = () => {
-    const currentPage = useSelector(state => state.pageReducer.currentPage);
+    const [currentPage, user] = useSelector(state => [state.pageReducer.currentPage, state.userReducer.user]);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [description, setDescription] = useState("");
     const classes = useStyles();
 
     const _handleOpenPopup = (e) => {
-        e.preventDefault();
         setAnchorEl(e.currentTarget)
     }
 
     const _handleClosePopup = () => {
-        console.log("close")
         setAnchorEl(null)
+    }
+
+    const _renderPopover = () => {
+        return (
+            <Popover open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={_handleClosePopup}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                }} transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }} className={classes.popover}>
+                <input className={classes.file} id="post-image" type="file" name="image" accept="image/*" />
+                <Divider className={classes.divider} />
+                <TextField id="upload-description" className={classes.textField} variant="outlined" placeholder="Add description" value={description}
+                    rows={4} rowsMax={4} multiline onChange={(e) => setDescription(e.target.value)} />
+                <Divider className={classes.divider} />
+                <Button className={classes.share} onClick={(e) => _share(e, user.username, description)}>Share</Button>
+            </Popover>
+        );
     }
 
     return (
@@ -103,20 +129,7 @@ const TopNavigation = () => {
                         <ExitToAppOutlined className={classes.icon} />
                     </IconButton>
                 </ButtonGroup>
-                <Popover open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={_handleClosePopup}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center',
-                    }} transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'center',
-                    }} className={classes.popover}>
-                    <input className={classes.file} type="file" name="image" accept="image/*" />
-                    <Divider className={classes.divider} />
-                    <TextField id="upload-description" className={classes.textField} variant="outlined" placeholder="Add description" rows={4} rowsMax={4} multiline />
-                    <Divider className={classes.divider} />
-                    <Button className={classes.share}>Share</Button>
-                </Popover>
+                {_renderPopover()}
             </Toolbar>
         </AppBar>
     );
