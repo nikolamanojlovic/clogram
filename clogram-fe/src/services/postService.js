@@ -3,17 +3,31 @@ import { API } from '../helpers/constants';
 import { addMessageAction, clearMessageAction } from '../actions/messageActions';
 import { store } from '../store';
 
-export const createPost = (username, image, description) => {
+export const paginatePosts = (username, page, offset) => {
     store.dispatch(clearMessageAction());
 
-    console.log(image)
+    axios.get(API + 'content/paginatePosts', {
+        params: {
+            username: username,
+            page: page,
+            offset: offset
+        }
+    }).then((response) => {
+
+    }).catch((error) => {
+        store.dispatch(addMessageAction(error.response.data));
+    })
+}
+
+export const createPost = (username, image, description) => {
+    store.dispatch(clearMessageAction());
 
     axios.post(API + 'content/createPost', {
         username: username,
         image: image,
         description: description
     }).then((response) => {
-        
+
     }).catch((error) => {
         store.dispatch(addMessageAction(error.response.data));
     })

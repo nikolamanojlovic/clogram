@@ -7,13 +7,14 @@ import SignUpFrom from '../components/SignUpForm';
 import { FEED_PAGE, PROFILE_PAGE } from '../helpers/constants';
 import { Grid } from "@material-ui/core";
 import ProfilePageContent from './ProfilePageContent';
+import FeeedPageContent from './FeedPageContent';
 
 const _renderPage = (page) => {
     switch (page) {
         case PROFILE_PAGE:
             return <ProfilePageContent />;
         default:
-            return <div><Paper>FEED_PAGE</Paper><Paper>PROFILE_PAGE</Paper></div>;
+            return <FeeedPageContent />;
     }
 }
 
