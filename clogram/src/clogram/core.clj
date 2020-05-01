@@ -4,6 +4,7 @@
    [compojure.core :refer :all]
    [ring.middleware.defaults :refer :all]
    [ring.middleware.params :refer :all]
+   [ring.middleware.multipart-params :refer :all]
    [compojure.route :as route]
    [clogram.api.auth :as auth]
    [clogram.api.content :as content]
@@ -16,7 +17,7 @@
 (defroutes app
   (POST "/auth/login" req (auth/log-in req))
   (POST "/auth/signup" req (auth/sign-up req))
-  (POST "/content/createPost" req (content/create-post req))
+  (wrap-multipart-params (POST "/content/createPost" req (content/create-post (:multipart-params req))))
   (wrap-params (GET "/content/paginatePosts" params (content/paginate-posts (:query-params params))))
   (route/not-found (response-utils/not-found "Page not found.")))
 
@@ -28,5 +29,5 @@
     (server/run-server (->
                         (wrap-defaults #'app (site-defaults :security false))
                         (wrap-cors  :access-control-allow-origin [#".*"] :access-control-allow-headers ["Content-Type" "Authorization"]
-                                    :access-control-allow-methods [:get :put :post :delete] :available-media-types ["application/json"]))
+                                    :access-control-allow-methods [:get :put :post :delete] :available-media-types ["multipart/form-data" "application/json"]))
                        {:port port})))

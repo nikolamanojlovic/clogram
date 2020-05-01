@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Typography, Button, Paper, Divider, Avatar, ButtonGroup, IconButton } from '@material-ui/core';
+import { Card, CardHeader, Typography, Button, Paper, Divider, Avatar, ButtonGroup, IconButton, CardMedia } from '@material-ui/core';
 import LogInForm from "../components/LogInForm";
 import SignUpFrom from '../components/SignUpForm';
 import { FEED_PAGE, PROFILE_PAGE } from '../helpers/constants';
 import { Grid } from "@material-ui/core";
 import { SettingsOutlined } from '@material-ui/icons';
 import { paginatePosts } from '../services/postService';
+import base64 from "base-64";
 
 const useStyles = makeStyles({
     root: {
@@ -69,15 +70,32 @@ const FeeedPageContent = () => {
     const user = useSelector(state => state.userReducer.user);
     const posts = useSelector(state => state.postsReducer.posts);
     const classes = useStyles();
-    
+
+    const _renderPost = (post) => {
+        if ( post.photo== null) {
+            return;
+        }
+        console.log(Buffer.from(post.photo).toString("base64"));
+        let src = "data:image/jpeg;base64," + Buffer.from(post.photo).toString("base64");
+        console.log(src)
+
+        return <img style={{width: 300, height: 300}} src={src} />;
+    }
+
     const _renderPosts = () => {
         if (posts === null) {
             return <Grid item className={classes.item} xs={3}>
-                        <Typography>NO POSTS</Typography>
-                   </Grid>;
+                <Typography>NO POSTS</Typography>
+            </Grid>;
         }
-    
-        return <Typography>POSTS</Typography>;
+
+        let items = [];
+        posts.map(post => {
+            items.push(<Grid item className={classes.item} xs={12}>
+                {_renderPost(post)}
+            </Grid>);
+        });
+        return items;
     }
 
     return (
@@ -95,6 +113,7 @@ const FeeedPageContent = () => {
                 <Grid item className={classes.item} xs={3}>
                 </Grid>
                 {_renderPosts()}
+                {/* {_fetchPosts(user.username, 0, 200)} */}
             </Grid>
         </Grid>
     );

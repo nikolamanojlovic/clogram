@@ -23,10 +23,15 @@ export const paginatePosts = (username, page, offset) => {
 export const createPost = (username, image, description) => {
     store.dispatch(clearMessageAction());
 
-    axios.post(API + 'content/createPost', {
-        username: username,
-        image: image,
-        description: description
+    let data = new FormData();
+    data.append('username', username)
+    data.append('image', image)
+    data.append('description', description)
+
+    axios.post(API + 'content/createPost', data, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
     }).then((response) => {
 
     }).catch((error) => {
