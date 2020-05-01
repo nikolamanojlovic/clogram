@@ -69,13 +69,6 @@ const _logOut = (e) => {
     logOut();
 }
 
-const _share = (e, username, description) => {
-    e.preventDefault();
-    
-    let image = document.getElementById("post-image").files[0];
-    createPost(username, image, description);
-}
-
 const TopNavigation = () => {
     const [currentPage, user] = useSelector(state => [state.pageReducer.currentPage, state.userReducer.user]);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -88,6 +81,15 @@ const TopNavigation = () => {
 
     const _handleClosePopup = () => {
         setAnchorEl(null)
+    }
+
+    const _share = (e, username, description) => {
+        e.preventDefault();
+        
+        let image = document.getElementById("post-image").files[0];
+
+        createPost(username, image, description);
+        _handleClosePopup();
     }
 
     const _renderPopover = () => {

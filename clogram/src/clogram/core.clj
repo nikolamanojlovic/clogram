@@ -3,6 +3,7 @@
    [org.httpkit.server :as server]
    [compojure.core :refer :all]
    [ring.middleware.defaults :refer :all]
+   [ring.middleware.params :refer :all]
    [compojure.route :as route]
    [clogram.api.auth :as auth]
    [clogram.api.content :as content]
@@ -16,7 +17,7 @@
   (POST "/auth/login" req (auth/log-in req))
   (POST "/auth/signup" req (auth/sign-up req))
   (POST "/content/createPost" req (content/create-post req))
-  (GET "/content/paginatePosts" [username page offset] (content/paginate-posts username page offset))
+  (wrap-params (GET "/content/paginatePosts" params (content/paginate-posts (:query-params params))))
   (route/not-found (response-utils/not-found "Page not found.")))
 
 ;; Fixes CORS problem

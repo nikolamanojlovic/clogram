@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, Button, Paper, Divider, Avatar, ButtonGroup, IconButton } from '@material-ui/core';
@@ -67,10 +67,17 @@ const _fetchPosts = (username, page, offset) => {
 
 const FeeedPageContent = () => {
     const user = useSelector(state => state.userReducer.user);
+    const posts = useSelector(state => state.postsReducer.posts);
     const classes = useStyles();
-
-    const _renderPosts = (page, offset) => {
-        _fetchPosts(user.username, page, offset);
+    
+    const _renderPosts = () => {
+        if (posts === null) {
+            return <Grid item className={classes.item} xs={3}>
+                        <Typography>NO POSTS</Typography>
+                   </Grid>;
+        }
+    
+        return <Typography>POSTS</Typography>;
     }
 
     return (
@@ -86,9 +93,8 @@ const FeeedPageContent = () => {
                 justify="flex-start"
                 alignItems="center">
                 <Grid item className={classes.item} xs={3}>
-                    <Avatar className={classes.avatar} alt="user.username" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
                 </Grid>
-                {_renderPosts(0, 5)}
+                {_renderPosts()}
             </Grid>
         </Grid>
     );

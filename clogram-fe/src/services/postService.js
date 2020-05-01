@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API } from '../helpers/constants';
 import { addMessageAction, clearMessageAction } from '../actions/messageActions';
+import { fetchPostsAction } from '../actions/postActions';
 import { store } from '../store';
 
 export const paginatePosts = (username, page, offset) => {
@@ -13,7 +14,7 @@ export const paginatePosts = (username, page, offset) => {
             offset: offset
         }
     }).then((response) => {
-
+        store.dispatch(fetchPostsAction(response.data));
     }).catch((error) => {
         store.dispatch(addMessageAction(error.response.data));
     })
