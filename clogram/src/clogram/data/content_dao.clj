@@ -27,6 +27,6 @@
 
 
 (defn get-posts-for-username "Gets posts for username" [username] 
-  (jdbc/execute-one! db/datasource 
-    ["SELECT post.*, user.username, user.profile_photo FROM post INNER JOIN user ON post.username = user.username WHERE username = ?" username] 
+  (jdbc/execute! db/datasource 
+    ["SELECT post.*, user.username, user.profile_photo FROM post INNER JOIN user ON post.username = user.username WHERE post.username = ?" username] 
     {:builder-fn rs/as-unqualified-maps}))

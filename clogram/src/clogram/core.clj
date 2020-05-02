@@ -8,6 +8,7 @@
    [compojure.route :as route]
    [clogram.api.auth :as auth]
    [clogram.api.content :as content]
+   [clogram.api.user :as user]
    [ring.util.response :as response-utils]
    [clojure.data.json :as json]
    [ring.middleware.cors :refer [wrap-cors]]
@@ -17,8 +18,13 @@
 (defroutes app
   (POST "/auth/login" req (auth/log-in req))
   (POST "/auth/signup" req (auth/sign-up req))
+
+  (wrap-params (GET "/user/friends" params (user/get-user-friends (:query-params params))))
+
   (wrap-multipart-params (POST "/content/createPost" req (content/create-post (:multipart-params req))))
   (wrap-params (GET "/content/paginatePosts" params (content/paginate-posts (:query-params params))))
+  (wrap-params (GET "/content/fetchPostsForUser" params (content/get-posts-for-username (:query-params params))))
+
   (route/not-found (response-utils/not-found "Page not found.")))
 
 ;; Fixes CORS problem
