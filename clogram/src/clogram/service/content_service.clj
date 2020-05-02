@@ -6,3 +6,6 @@
 
 (defn create-post "Creates post for given username"  [username image description]
   (content-dao/create-post username image description))
+
+(defn get-posts-for-username "Gets posts for username"  [username]
+  (content-dao/get-posts-for-username username))

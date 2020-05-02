@@ -26,5 +26,10 @@
   (let [inputs (walk/keywordize-keys params)]
     (try
       (response-utils/response (json/write-str (content-service/create-post (get inputs :username "") (get inputs :image "") (get inputs :description ""))))
-      (catch  Exception e (println (.getMessage e))))))
-      ;;(catch  Exception e (response-utils/status (response-utils/response "create.post.general.error") 400)))))
+      (catch  Exception e (response-utils/status (response-utils/response "create.post.general.error") 400)))))
+
+(defn get-posts-for-username "Gets posts for username" [params]
+  (let [inputs (walk/keywordize-keys params)]
+    (try
+      (response-utils/response (json/write-str (content-service/get-posts-for-username (get inputs :username ""))))
+      (catch  Exception e (response-utils/status (response-utils/response "fetch.users.post.general.error") 400)))))

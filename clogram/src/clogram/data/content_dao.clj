@@ -13,13 +13,20 @@
 
 (defn paginate-posts "Paginate posts" [username page offset]
   (let [page (Integer/parseInt page) offset (Integer/parseInt offset)] (jdbc/execute! db/datasource
-    ["SELECT * FROM post WHERE username IN (SELECT friend FROM friends WHERE username=?) OR username=? ORDER BY post_timestamp DESC LIMIT ?, ?"
+    ["SELECT post.*, user.username, user.profile_photo FROM post INNER JOIN user ON post.username = user.username 
+        WHERE post.username IN (SELECT friend FROM friends WHERE friends.username=?) OR post.username=? ORDER BY post_timestamp DESC LIMIT ?, ?"
      username username (* page offset) offset]
     {:builder-fn rs/as-unqualified-maps})))
 
 
 (defn create-post "Creates post" [username image description]
   (let [count (jdbc/execute-one! db/datasource
-        ["INSERT INTO post(username, photo, descrip) VALUES (?, ?, ?)" 
-        username (file->bytes (get image :tempfile)) description] {:builder-fn rs/as-unqualified-maps})]
+        ["INSERT INTO post(username, photo_name, photo_mime_type, photo, descrip) VALUES (?, ?, ?, ?, ?)" 
+        username (get image :filename) (get image :content-type) (file->bytes (get image :tempfile)) description] {:builder-fn rs/as-unqualified-maps})]
     (if (= 0 (get count :next.jdbc/update-count)) (throw (Exception. (str "Could not create post for user " username))))))
+
+
+(defn get-posts-for-username "Gets posts for username" [username] 
+  (jdbc/execute-one! db/datasource 
+    ["SELECT post.*, user.username, user.profile_photo FROM post INNER JOIN user ON post.username = user.username WHERE username = ?" username] 
+    {:builder-fn rs/as-unqualified-maps}))
