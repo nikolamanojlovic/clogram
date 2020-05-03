@@ -14,6 +14,7 @@ import { createPost } from '../services/postService';
 const useStyles = makeStyles({
     root: {
         backgroundColor: '#FFFFFF',
+        boxShadow: '0px 19px 20px 0px rgba(50,50,50,0.08)'
     },
     toolbar: {
         backgroundColor: '#FFFFFF',
@@ -38,6 +39,9 @@ const useStyles = makeStyles({
         textAlign: 'center',
         maxHeight: 1000,
         minWidth: 1000
+    },
+    paper: {
+        boxShadow: '0px 19px 54px 0px rgba(50,50,50,0.08)'
     },
     divider: {
         margin: 'auto',
@@ -85,7 +89,7 @@ const TopNavigation = () => {
 
     const _share = (e, username, description) => {
         e.preventDefault();
-        
+
         let image = document.getElementById("post-image").files[0];
 
         createPost(username, image, description);
@@ -94,14 +98,15 @@ const TopNavigation = () => {
 
     const _renderPopover = () => {
         return (
-            <Popover open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={_handleClosePopup}
+            <Popover className={classes.popover} open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={_handleClosePopup}
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'center',
                 }} transformOrigin={{
                     vertical: 'top',
                     horizontal: 'center',
-                }} className={classes.popover}>
+                }}
+                PaperProps={{ className: classes.paper }}>
                 <input className={classes.file} id="post-image" type="file" name="image" accept="image/*" />
                 <Divider className={classes.divider} />
                 <TextField id="upload-description" className={classes.textField} variant="outlined" placeholder="Add description" value={description}

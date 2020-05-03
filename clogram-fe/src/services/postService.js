@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API } from '../helpers/constants';
 import { addMessageAction, clearMessageAction } from '../actions/messageActions';
-import { fetchPostsAction } from '../actions/postActions';
+import { fetchPostsAction, fetchPostsForUserAction } from '../actions/postActions';
 import { store } from '../store';
 
 export const paginatePosts = (username, page, offset) => {
@@ -34,6 +34,21 @@ export const createPost = (username, image, description) => {
         }
     }).then((response) => {
 
+    }).catch((error) => {
+        console.log(error);
+        store.dispatch(addMessageAction(error.response.data));
+    })
+}
+
+export const fetchPostsForUser = (username) => {
+    store.dispatch(clearMessageAction());
+
+    axios.get(API + 'content/fetchPostsForUser', {
+        params: {
+            username: username
+        }
+    }).then((response) => {
+        store.dispatch(fetchPostsForUserAction(response.data));
     }).catch((error) => {
         store.dispatch(addMessageAction(error.response.data));
     })

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, Button, Paper, Divider, Avatar, ButtonGroup, IconButton } from '@material-ui/core';
@@ -7,6 +7,9 @@ import SignUpFrom from '../components/SignUpForm';
 import { FEED_PAGE, PROFILE_PAGE } from '../helpers/constants';
 import { Grid } from "@material-ui/core";
 import { SettingsOutlined } from '@material-ui/icons';
+import { fetchFriendsForUser } from '../services/userService';
+import { fetchPostsForUser } from '../services/postService';
+import Post from '../components/Post';
 
 const useStyles = makeStyles({
     root: {
@@ -16,6 +19,7 @@ const useStyles = makeStyles({
     },
     container: {
         marginTop: '10px',
+        marginBottom: '20px',
         height: '100%',
         width: '90%'
     },
@@ -24,7 +28,6 @@ const useStyles = makeStyles({
         textAlign: 'left'
     },
     divider: {
-        marginBottom: '20px',
         width: '90%'
     },
     avatar: {
@@ -62,7 +65,35 @@ const useStyles = makeStyles({
 
 const ProfilePageContent = () => {
     const user = useSelector(state => state.userReducer.user);
+    const friends = useSelector(state => state.userReducer.friends);
+    const posts = useSelector(state => state.postsReducer.usersPosts);
+
+    useEffect(() => {
+        fetchFriendsForUser(user.username)
+    }, []);
+
+    useEffect(() => {
+        fetchPostsForUser(user.username)
+    }, []);
+
     const classes = useStyles();
+
+    const _renderPosts = () => {
+        if (posts != null && posts.length > 0) {
+            let items = [];
+            posts.map(post => {
+                items.push(
+                    <Fragment>
+                        <Post post={post} isPreview={true} />
+                    </Fragment>
+                );
+            });
+            return items;
+        }
+        return <Grid item>
+            <Typography variant="h6" gutterBottom>No posts yet.</Typography>
+        </Grid>
+    }
 
     return (
         <Grid className={classes.root}
@@ -86,22 +117,21 @@ const ProfilePageContent = () => {
                             <SettingsOutlined />
                         </IconButton>
                     </div>
-                    {/* replace test data */}
                     <Typography className={classes.info} variant="subtitle1" gutterBottom>
-                        22 posts
+                        {posts == null ? 0 : posts.length} posts
                     </Typography>
                     <Typography className={classes.info} variant="subtitle1" gutterBottom>
-                        780 friends
+                        {friends == null ? 0 : friends.length} friends
                     </Typography>
                     <Typography className={classes.name} variant="subtitle1" gutterBottom>{user.first_name + ' ' + user.last_name}</Typography>
                 </Grid>
             </Grid>
+
             <Divider className={classes.divider} />
-            <Grid className={classes.container} container>
-                <Grid item>
-                    <Typography variant="h6" gutterBottom>No posts yet.</Typography>
-                </Grid>
-            </Grid>
+
+            <Fragment>
+                {_renderPosts()}
+            </Fragment>
         </Grid>
     );
 }

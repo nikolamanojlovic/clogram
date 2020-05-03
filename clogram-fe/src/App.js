@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     height: '100vh',
     overflowX: 'hidden',
-    overflowY: 'hidden',
+    overflowY: 'scroll',
     background: 'linear-gradient(45deg, #67b26f, #4ca2cd)'
   },
   grid: {

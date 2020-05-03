@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API } from '../helpers/constants';
-import { userLogInAction, userLogOutAction } from '../actions/userActions';
+import { userLogInAction, userLogOutAction, fetchFriendsAction } from '../actions/userActions';
 import { addMessageAction, clearMessageAction } from '../actions/messageActions';
 import { store } from '../store';
 
@@ -32,6 +32,20 @@ export const signUp = (username, firstName, lastName, email, password) => {
         password: password
     }).then((response) => {
         store.dispatch(userLogInAction(response.data));
+    }).catch((error) => {
+        store.dispatch(addMessageAction(error.response.data));
+    })
+}
+
+export const fetchFriendsForUser = (username) => {
+    store.dispatch(clearMessageAction());
+
+    axios.get(API + 'user/friends', {
+        params: {
+            username: username
+        }
+    }).then((response) => {
+        store.dispatch(fetchFriendsAction(response.data));
     }).catch((error) => {
         store.dispatch(addMessageAction(error.response.data));
     })
