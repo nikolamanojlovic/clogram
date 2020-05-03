@@ -6,7 +6,7 @@ import LogInForm from "../components/LogInForm";
 import SignUpFrom from '../components/SignUpForm';
 import { FEED_PAGE, PROFILE_PAGE } from '../helpers/constants';
 import { Grid } from "@material-ui/core";
-import { SettingsOutlined } from '@material-ui/icons';
+import { SettingsOutlined, CameraOutlined, ImageSearchOutlined, ImageSearchTwoTone, ImageSearchRounded } from '@material-ui/icons';
 import { fetchFriendsForUser } from '../services/userService';
 import { fetchPostsForUser } from '../services/postService';
 import Post from '../components/Post';
@@ -60,6 +60,25 @@ const useStyles = makeStyles({
         marginLeft: '5px',
         paddingBottom: '5px',
         color: '#000000'
+    },
+    itemNoPosts: {
+        paddingTop: '5%',
+        paddingBottom: '5%',
+        textAlign: 'center'
+    },
+    iconNoPosts: {
+        fontSize: 50,
+        display: 'block',
+        color: '#4ca2cd'
+    },
+    textNoPosts: {
+        color: "#FFFFFF"
+    },
+    wrapper: {
+        maxWidth: '60%',
+        float: 'left',
+        backgroundColor: "#FFFFFF",
+        paddingTop: 20
     }
 });
 
@@ -83,56 +102,54 @@ const ProfilePageContent = () => {
             let items = [];
             posts.map(post => {
                 items.push(
-                    <Fragment>
-                        <Post post={post} isPreview={true} />
-                    </Fragment>
+                    <Post post={post} isPreview={true} />
                 );
             });
             return items;
         }
-        return <Grid item>
-            <Typography variant="h6" gutterBottom>No posts yet.</Typography>
-        </Grid>
     }
 
     return (
-        <Grid className={classes.root}
-            container
-            direction="column"
-            justify="flex-start"
-            alignItems="center">
-            <Grid className={classes.container}
+        <Fragment>
+            <Grid className={classes.root}
                 container
-                spacing={0}
-                direction="row"
+                direction="column"
                 justify="flex-start"
                 alignItems="center">
-                <Grid item className={classes.item} xs={3}>
-                    <Avatar className={classes.avatar} alt="user.username" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
-                </Grid>
-                <Grid className={classes.item} item>
-                    <div className={classes.block}>
-                        <Typography className={classes.username} variant="h5" gutterBottom>{user.username}</Typography>
-                        <IconButton className={classes.icon}>
-                            <SettingsOutlined />
-                        </IconButton>
-                    </div>
-                    <Typography className={classes.info} variant="subtitle1" gutterBottom>
-                        {posts == null ? 0 : posts.length} posts
+                <Grid className={classes.container}
+                    container
+                    spacing={0}
+                    direction="row"
+                    justify="flex-start"
+                    alignItems="center">
+                    <Grid item className={classes.item} xs={3}>
+                        <Avatar className={classes.avatar} alt="user.username" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
+                    </Grid>
+                    <Grid className={classes.item} item>
+                        <div className={classes.block}>
+                            <Typography className={classes.username} variant="h5" gutterBottom>{user.username}</Typography>
+                            <IconButton className={classes.icon}>
+                                <SettingsOutlined />
+                            </IconButton>
+                        </div>
+                        <Typography className={classes.info} variant="subtitle1" gutterBottom>
+                            {posts == null ? 0 : posts.length} posts
                     </Typography>
-                    <Typography className={classes.info} variant="subtitle1" gutterBottom>
-                        {friends == null ? 0 : friends.length} friends
+                        <Typography className={classes.info} variant="subtitle1" gutterBottom>
+                            {friends == null ? 0 : friends.length} friends
                     </Typography>
-                    <Typography className={classes.name} variant="subtitle1" gutterBottom>{user.first_name + ' ' + user.last_name}</Typography>
+                        <Typography className={classes.name} variant="subtitle1" gutterBottom>{user.first_name + ' ' + user.last_name}</Typography>
+                    </Grid>
                 </Grid>
+                <Divider className={classes.divider} />
+                {
+                   posts == null || posts.length === 0 ? <div className={classes.itemNoPosts}><ImageSearchRounded className={classes.iconNoPosts} /></div> : <span/>
+                }
             </Grid>
-
-            <Divider className={classes.divider} />
-
-            <Fragment>
+            <div className={classes.wrapper}>
                 {_renderPosts()}
-            </Fragment>
-        </Grid>
+            </div>
+        </Fragment>
     );
 }
 

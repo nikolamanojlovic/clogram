@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from "react-redux";
+import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { useSelector, shallowEqual } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardHeader, Typography, Button, Paper, Divider, Avatar, ButtonGroup, IconButton, CardMedia } from '@material-ui/core';
+import { Card, CardHeader, Typography, Button, Paper, Divider, Avatar, ButtonGroup, IconButton, CardMedia, CircularProgress } from '@material-ui/core';
 import LogInForm from "../components/LogInForm";
 import SignUpFrom from '../components/SignUpForm';
 import { FEED_PAGE, PROFILE_PAGE, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET } from '../helpers/constants';
 import { Grid } from "@material-ui/core";
-import { SettingsOutlined } from '@material-ui/icons';
+import { SettingsOutlined, FindInPageRounded } from '@material-ui/icons';
 import { paginatePosts } from '../services/postService';
 import base64 from "base-64";
 import Post from '../components/Post';
@@ -17,14 +17,17 @@ const useStyles = makeStyles({
         marginTop: 20
     },
     item: {
-        margin: '20px',
-        textAlign: 'left'
+        marginTop: '50%',
+        textAlign: 'center'
+    },
+    textNoPosts: {
+        color: "#FFFFFF"
     }
 });
 
 const FeeedPageContent = () => {
     const user = useSelector(state => state.userReducer.user);
-    const posts = useSelector(state => state.postsReducer.posts);
+    let posts = useSelector(state => state.postsReducer.posts, shallowEqual);
 
     const classes = useStyles();
 
@@ -33,13 +36,14 @@ const FeeedPageContent = () => {
     }, []);
 
     const _renderPosts = () => {
-        if (posts === null) {
-            return <Grid item className={classes.item} xs={3}><Typography>NO POSTS</Typography></Grid>;
+        console.log(posts)
+        if (posts == null || posts.length === 0) {
+            return <div className={classes.item}><Typography className={classes.textNoPosts} variant="h2">No posts found.</Typography></div>;
         }
 
         let items = [];
-        posts.map(post => {
-            items.push(<Post post={post} isPreview={false} />);
+        posts.map((post, index) => {
+            items.push(<Post key={index} post={post} isPreview={false} />);
         });
         return items;
     }

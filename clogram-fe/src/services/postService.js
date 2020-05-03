@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API } from '../helpers/constants';
+import { API, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET } from '../helpers/constants';
 import { addMessageAction, clearMessageAction } from '../actions/messageActions';
 import { fetchPostsAction, fetchPostsForUserAction } from '../actions/postActions';
 import { store } from '../store';
@@ -33,7 +33,9 @@ export const createPost = (username, image, description) => {
             'Content-Type': 'multipart/form-data'
         }
     }).then((response) => {
-
+        if (response.status === 200) {
+            paginatePosts(username, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET);
+        }
     }).catch((error) => {
         console.log(error);
         store.dispatch(addMessageAction(error.response.data));
