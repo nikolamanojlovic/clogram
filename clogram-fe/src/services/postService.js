@@ -55,3 +55,37 @@ export const fetchPostsForUser = (username) => {
         store.dispatch(addMessageAction(error.response.data));
     })
 }
+
+export const likePost = (id, username, likedBy) => {
+    store.dispatch(clearMessageAction());
+
+    axios.post(API + 'content/likePost', {
+        id: id,
+        username: username,
+        liked_by: likedBy
+    }).then((response) => {
+        // if (response.status === 200) {
+        //     paginatePosts(username, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET);
+        // }
+    }).catch((error) => {
+        console.log(error);
+        store.dispatch(addMessageAction(error.response.data));
+    })
+}
+
+export const dislikePost = (id, username, likedBy) => {
+    store.dispatch(clearMessageAction());
+
+    axios.post(API + 'content/dislikePost', {
+        id: id,
+        username: username,
+        liked_by: likedBy
+    }).then((response) => {
+        // if (response.status === 200) {
+        //     paginatePosts(username, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET);
+        // }
+    }).catch((error) => {
+        console.log(error);
+        store.dispatch(addMessageAction(error.response.data));
+    })
+}

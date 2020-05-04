@@ -43,7 +43,7 @@ const FeeedPageContent = () => {
 
         let items = [];
         posts.map((post, index) => {
-            items.push(<Post key={index} post={post} isPreview={false} />);
+            items.push(<Post key={index} user={user} post={post} isPreview={false} />);
         });
         return items;
     }

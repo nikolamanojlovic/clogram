@@ -18,9 +18,8 @@
 (defn paginate-posts "Paginates posts for feed" [params]
  (let [inputs (walk/keywordize-keys params)]
    (try
-  (println (content-service/paginate-posts (:username inputs) (:page inputs) (:offset inputs)))
      (response-utils/response (json/write-str (content-service/paginate-posts (:username inputs) (:page inputs) (:offset inputs))))
-     (catch  Exception e (println (.getMessage e))))))
+     (catch  Exception e (response-utils/status (response-utils/response "paginate.post.general.error") 400)))))
 
 (defn create-post "Creates a post for user" [params]
   (let [inputs (walk/keywordize-keys params)]
@@ -33,3 +32,16 @@
     (try
       (response-utils/response (json/write-str (content-service/get-posts-for-username (get inputs :username ""))))
       (catch  Exception e (response-utils/status (response-utils/response "fetch.users.post.general.error") 400)))))
+
+(defn like-post "Like post a post by user" [req]
+  (let [inputs (get-parameters req)]
+    (try
+      (response-utils/response (json/write-str (content-service/like-post (get inputs :id "") (get inputs :username "") (get inputs :liked_by ""))))
+      (catch  Exception e (println (.getMessage e))))))
+      ;;(catch  Exception e (response-utils/status (response-utils/response "like.post.general.error") 400)))))
+
+(defn dislike-post "Dislike post a post by user" [req]
+  (let [inputs (get-parameters req)]
+    (try
+      (response-utils/response (json/write-str (content-service/dislike-post (get inputs :id "") (get inputs :username "") (get inputs :liked_by ""))))
+      (catch  Exception e (response-utils/status (response-utils/response "dislike.post.general.error") 400)))))

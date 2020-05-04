@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS friends (
 CREATE TABLE IF NOT EXISTS post (
     id INT(11) NOT NULL AUTO_INCREMENT,
     username VARCHAR(60),
+    photo_name VARCHAR(255),
+    photo_mime_type VARCHAR(255),
     photo LONGBLOB,
     post_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     descrip VARCHAR(255),

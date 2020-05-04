@@ -7,6 +7,7 @@ import { clearMessageAction } from '../actions/messageActions';
 import moment from "moment";
 import { DEFAULT_DATE_TIME_FORMAT } from '../helpers/constants';
 import { FavoriteBorderOutlined, FavoriteRounded, ChatBubbleOutline } from '@material-ui/icons';
+import { likePost, dislikePost } from '../services/postService';
 
 const useStyles = makeStyles({
     root: {
@@ -74,7 +75,8 @@ const useStyles = makeStyles({
 
 const Post = (props) => {
     const classes = useStyles();
-    let isLikedByUser = false;
+  //  let isLikedByUser = props.post.liked_by != null && props.post.liked_by.includes(props.user.username);
+    const [isLikedByUser, setIsLikedByUser] = useState(props.post.liked_by != null && props.post.liked_by.includes(props.user.username));
 
     const _renderImage = () => {
         let post = props.post;
@@ -87,6 +89,11 @@ const Post = (props) => {
         return <img key={props.key} className={props.isPreview ? classes.mediaPriview : classes.media} src={src} />;
     }
 
+    const _renderLikeButton = () => {
+        return isLikedByUser ? <FavoriteRounded className={classes.iconActive} onClick={() => _dislikePost()} />
+            : <FavoriteBorderOutlined className={classes.icon} onClick={() => _likePost()} />
+    }
+
     const _renderLikes = () => {
         let numOfLikes = props.post.num_of_likes;
 
@@ -96,7 +103,7 @@ const Post = (props) => {
                     <Typography className={classes.likeText} variant="caption" gutterBottom>You and {numOfLikes - 1} people like this.</Typography> :
                     <Typography className={classes.likeText} variant="caption" gutterBottom>You like this.</Typography>
             } else {
-                return <Typography className={classes.likeText} variant="caption">{numOfLikes} people like this.</Typography>
+                return <Typography className={classes.likeText} variant="caption">{numOfLikes} person likes this.</Typography>
             }
         }
         return <Typography className={classes.likeText} variant="caption" gutterBottom>Be the first to like this post!</Typography>
@@ -113,7 +120,21 @@ const Post = (props) => {
     }
 
     const _likePost = () => {
-        isLikedByUser = !isLikedByUser;
+        let post = props.post;
+        let user = props.user;
+
+        likePost(post.id, post.username, user.username);
+        setIsLikedByUser(true);
+        props.post.num_of_likes = props.post.num_of_likes + 1;
+    }
+
+    const _dislikePost = () => {
+        let post = props.post;
+        let user = props.user;
+
+        dislikePost(post.id, post.username, user.username);
+        setIsLikedByUser(false);
+        props.post.num_of_likes = props.post.num_of_likes - 1;
     }
 
     return (
@@ -129,10 +150,10 @@ const Post = (props) => {
             {!props.isPreview ?
                 <CardActions className={classes.content} disableSpacing>
                     <IconButton className={classes.iconButton} disableRipple={true}>
-                        {isLikedByUser ? <FavoriteRounded className={classes.iconActive} onClick={() => _likePost()} /> : <FavoriteBorderOutlined className={classes.icon} onClick={() => _likePost()} />}
+                        {_renderLikeButton()}
                     </IconButton>
                     <IconButton className={classes.iconButton} disableRipple={true}>
-                        <ChatBubbleOutline className={classes.icon}/>
+                        <ChatBubbleOutline className={classes.icon} />
                     </IconButton>
                     {_renderLikes()}
                 </CardActions> : <span />}

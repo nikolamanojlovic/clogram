@@ -102,7 +102,7 @@ const ProfilePageContent = () => {
             let items = [];
             posts.map(post => {
                 items.push(
-                    <Post post={post} isPreview={true} />
+                    <Post user={user} post={post} isPreview={true} />
                 );
             });
             return items;

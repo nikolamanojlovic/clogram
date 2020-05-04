@@ -24,6 +24,8 @@
   (wrap-multipart-params (POST "/content/createPost" req (content/create-post (:multipart-params req))))
   (wrap-params (GET "/content/paginatePosts" params (content/paginate-posts (:query-params params))))
   (wrap-params (GET "/content/fetchPostsForUser" params (content/get-posts-for-username (:query-params params))))
+  (POST "/content/likePost" req (content/like-post req))
+  (POST "/content/dislikePost" req (content/dislike-post req))
 
   (route/not-found (response-utils/not-found "Page not found.")))
 
