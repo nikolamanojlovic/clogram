@@ -8,5 +8,11 @@
 (defn create-user "Creates user" [username firstName lastName email password]
   (user-dao/create-user username firstName lastName email password))
 
+(defn get-user "Gets user" [username]
+  (user-dao/get-user username))
+
 (defn get-user-friends "Gets list of friends" [username]
   (user-dao/get-user-friends username))
+
+(defn search-for-users "Gets list of friends" [username limit]
+  (user-dao/get-users username limit))

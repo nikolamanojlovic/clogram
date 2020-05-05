@@ -1,27 +1,28 @@
 (ns clogram.core
   (:require
    [org.httpkit.server :as server]
-   [compojure.core :refer :all]
-   [ring.middleware.defaults :refer :all]
-   [ring.middleware.params :refer :all]
-   [ring.middleware.multipart-params :refer :all]
+   [compojure.core :refer [defroutes POST GET]]
+   [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+   [ring.middleware.params :refer [wrap-params]]
+   [ring.middleware.multipart-params :refer [wrap-multipart-params]]
    [compojure.route :as route]
    [clogram.api.auth :as auth]
    [clogram.api.content :as content]
    [clogram.api.user :as user]
    [ring.util.response :as response-utils]
-   [clojure.data.json :as json]
-   [ring.middleware.cors :refer [wrap-cors]]
-   [ring.middleware.json :refer [wrap-json-response]])
+   [ring.middleware.cors :refer [wrap-cors]])
   (:gen-class))
 
 (defroutes app
   (POST "/auth/login" req (auth/log-in req))
   (POST "/auth/signup" req (auth/sign-up req))
 
+  (wrap-params (GET "/user" params (user/get-user (:query-params params))))
   (wrap-params (GET "/user/friends" params (user/get-user-friends (:query-params params))))
+  (wrap-params (GET "/user/search" params (user/search-for-users (:query-params params))))
 
   (wrap-multipart-params (POST "/content/createPost" req (content/create-post (:multipart-params req))))
+  (wrap-multipart-params (POST "/content/uploadProfilePic" req (content/upload-profile-picture (:multipart-params req))))
   (wrap-params (GET "/content/paginatePosts" params (content/paginate-posts (:query-params params))))
   (wrap-params (GET "/content/fetchPostsForUser" params (content/get-posts-for-username (:query-params params))))
   (POST "/content/likePost" req (content/like-post req))

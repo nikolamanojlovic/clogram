@@ -3,6 +3,7 @@ export const API = "http://localhost:9002/"
 export const DEFAULT_DATE_TIME_FORMAT = "DD.MM.YYYY HH:mm";
 
 export const PAGINATION_INITAL_PAGE = 0;
+export const PAGINATION_SEARCH_LIMIT = 5;
 export const PAGINATION_OFFSET = 1000;
 
 export const FEED_PAGE = "FEED_PAGE";

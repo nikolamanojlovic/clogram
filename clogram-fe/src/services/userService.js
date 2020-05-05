@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API } from '../helpers/constants';
+import { API, PAGINATION_SEARCH_LIMIT } from '../helpers/constants';
 import { userLogInAction, userLogOutAction, fetchFriendsAction } from '../actions/userActions';
 import { addMessageAction, clearMessageAction } from '../actions/messageActions';
 import { store } from '../store';
@@ -37,6 +37,21 @@ export const signUp = (username, firstName, lastName, email, password) => {
     })
 }
 
+export const fetchUser = (username) => {
+    store.dispatch(clearMessageAction());
+
+    axios.get(API + 'user', {
+        params: {
+            username: username
+        }
+    }).then((response) => {
+        
+    }).catch((error) => {
+        store.dispatch(addMessageAction(error.response.data));
+    })
+}
+
+
 export const fetchFriendsForUser = (username) => {
     store.dispatch(clearMessageAction());
 
@@ -46,6 +61,21 @@ export const fetchFriendsForUser = (username) => {
         }
     }).then((response) => {
         store.dispatch(fetchFriendsAction(response.data));
+    }).catch((error) => {
+        store.dispatch(addMessageAction(error.response.data));
+    })
+}
+
+export const searchUsers = (username) => {
+    store.dispatch(clearMessageAction());
+
+    axios.get(API + 'user/search', {
+        params: {
+            username: username,
+            limit: PAGINATION_SEARCH_LIMIT
+        }
+    }).then((response) => {
+        
     }).catch((error) => {
         store.dispatch(addMessageAction(error.response.data));
     })

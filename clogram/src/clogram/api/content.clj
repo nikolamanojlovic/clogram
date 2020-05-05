@@ -9,22 +9,28 @@
 (extend-type java.sql.Timestamp
   json/JSONWriter
   (-write [date out]
-  (json/-write (str date) out)))
+    (json/-write (str date) out)))
 
-(defn- get-parameters [req] 
+(defn- get-parameters [req]
   (let [body (request-utils/body-string req)]
-      (if-not (clojure.string/blank? body) (json/read-str body :key-fn keyword) {})))
+    (if-not (clojure.string/blank? body) (json/read-str body :key-fn keyword) {})))
 
 (defn paginate-posts "Paginates posts for feed" [params]
- (let [inputs (walk/keywordize-keys params)]
-   (try
-     (response-utils/response (json/write-str (content-service/paginate-posts (:username inputs) (:page inputs) (:offset inputs))))
-     (catch  Exception e (response-utils/status (response-utils/response "paginate.post.general.error") 400)))))
+  (let [inputs (walk/keywordize-keys params)]
+    (try
+      (response-utils/response (json/write-str (content-service/paginate-posts (:username inputs) (:page inputs) (:offset inputs))))
+      (catch  Exception e (response-utils/status (response-utils/response "paginate.post.general.error") 400)))))
 
 (defn create-post "Creates a post for user" [params]
   (let [inputs (walk/keywordize-keys params)]
     (try
       (response-utils/response (json/write-str (content-service/create-post (get inputs :username "") (get inputs :image "") (get inputs :description ""))))
+      (catch  Exception e (response-utils/status (response-utils/response "create.post.general.error") 400)))))
+
+(defn upload-profile-picture "Uploads profile picture for user" [params]
+  (let [inputs (walk/keywordize-keys params)]
+    (try
+      (response-utils/response (json/write-str (content-service/upload-profile-picture (get inputs :username "") (get inputs :image ""))))
       (catch  Exception e (response-utils/status (response-utils/response "create.post.general.error") 400)))))
 
 (defn get-posts-for-username "Gets posts for username" [params]
