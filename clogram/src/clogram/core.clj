@@ -20,6 +20,7 @@
   (wrap-params (GET "/user" params (user/get-user (:query-params params))))
   (wrap-params (GET "/user/friends" params (user/get-user-friends (:query-params params))))
   (wrap-params (GET "/user/search" params (user/search-for-users (:query-params params))))
+  (POST "/user/delete" req (user/delete-user req))
 
   (wrap-multipart-params (POST "/content/createPost" req (content/create-post (:multipart-params req))))
   (wrap-multipart-params (POST "/content/uploadProfilePic" req (content/upload-profile-picture (:multipart-params req))))
