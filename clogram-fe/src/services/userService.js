@@ -40,12 +40,12 @@ export const signUp = (username, firstName, lastName, email, password) => {
 export const fetchUser = (username) => {
     store.dispatch(clearMessageAction());
 
-    axios.get(API + 'user', {
+    return axios.get(API + 'user', {
         params: {
             username: username
         }
     }).then((response) => {
-        
+        return response.data;
     }).catch((error) => {
         store.dispatch(addMessageAction(error.response.data));
     })
@@ -66,16 +66,41 @@ export const fetchFriendsForUser = (username) => {
     })
 }
 
-export const searchUsers = (username) => {
+export const fetchFriendsForFriend = (username) => {
     store.dispatch(clearMessageAction());
 
-    axios.get(API + 'user/search', {
+    return axios.get(API + 'user/friends', {
+        params: {
+            username: username
+        }
+    }).then((response) => {
+        return response.data;
+    }).catch((error) => {
+        store.dispatch(addMessageAction(error.response.data));
+    })
+}
+
+export const searchUsers = (username) => {
+    return axios.get(API + 'user/search', {
         params: {
             username: username,
             limit: PAGINATION_SEARCH_LIMIT
         }
     }).then((response) => {
-        
+        return response.data == null ? [] : response.data.split(',');
+    }).catch((error) => {
+        store.dispatch(addMessageAction(error.response.data));
+        return [];
+    })
+}
+
+export const deleteUser = (username) => {
+    store.dispatch(clearMessageAction());
+    
+    axios.post(API + 'user/delete', {
+        username: username
+    }).then((response) => {
+        store.dispatch(userLogOutAction());
     }).catch((error) => {
         store.dispatch(addMessageAction(error.response.data));
     })

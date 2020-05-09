@@ -37,6 +37,23 @@ export const createPost = (username, image, description) => {
             paginatePosts(username, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET);
         }
     }).catch((error) => {
+        store.dispatch(addMessageAction(error.response.data));
+    })
+}
+
+export const uploadProfilePicture = (username, image) => {
+    store.dispatch(clearMessageAction());
+
+    let data = new FormData();
+    data.append('username', username)
+    data.append('image', image)
+
+    axios.post(API + 'content/uploadProfilePic', data, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then((response) => {
+    }).catch((error) => {
         console.log(error);
         store.dispatch(addMessageAction(error.response.data));
     })
@@ -56,6 +73,20 @@ export const fetchPostsForUser = (username) => {
     })
 }
 
+export const fetchPostsForFriend = (username) => {
+    store.dispatch(clearMessageAction());
+
+    return axios.get(API + 'content/fetchPostsForUser', {
+        params: {
+            username: username
+        }
+    }).then((response) => {
+        return response.data;
+    }).catch((error) => {
+        store.dispatch(addMessageAction(error.response.data));
+    })
+}
+
 export const likePost = (id, username, likedBy) => {
     store.dispatch(clearMessageAction());
 
@@ -63,12 +94,7 @@ export const likePost = (id, username, likedBy) => {
         id: id,
         username: username,
         liked_by: likedBy
-    }).then((response) => {
-        // if (response.status === 200) {
-        //     paginatePosts(username, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET);
-        // }
     }).catch((error) => {
-        console.log(error);
         store.dispatch(addMessageAction(error.response.data));
     })
 }
@@ -80,12 +106,7 @@ export const dislikePost = (id, username, likedBy) => {
         id: id,
         username: username,
         liked_by: likedBy
-    }).then((response) => {
-        // if (response.status === 200) {
-        //     paginatePosts(username, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET);
-        // }
     }).catch((error) => {
-        console.log(error);
         store.dispatch(addMessageAction(error.response.data));
     })
 }

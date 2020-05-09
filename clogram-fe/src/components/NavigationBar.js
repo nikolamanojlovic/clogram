@@ -25,6 +25,7 @@ const useStyles = makeStyles({
         fontSize: 25,
         marginLeft: 5,
         paddingLeft: 5,
+        marginRight: 65,
         color: '#000000',
         cursor: 'pointer',
         userSelect: 'none'

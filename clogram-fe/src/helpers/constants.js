@@ -8,3 +8,4 @@ export const PAGINATION_OFFSET = 1000;
 
 export const FEED_PAGE = "FEED_PAGE";
 export const PROFILE_PAGE = "PROFILE_PAGE";
+export const FRIEND_PROFILE_PAGE = "FRIEND_PROFILE_PAGE";

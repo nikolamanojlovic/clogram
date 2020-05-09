@@ -2,7 +2,6 @@
   (:require
    [clojure.data.json :as json]
    [ring.util.request :as request-utils]
-   [clojure.data.json :as json]
    [ring.util.response :as response-utils]
    [clogram.service.user-service :as user-service]))
 

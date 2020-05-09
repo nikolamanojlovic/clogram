@@ -25,5 +25,5 @@
                  ["SELECT * FROM user WHERE username IN (SELECT friend FROM friends WHERE friends.username=?)" username] {:builder-fn rs/as-unqualified-maps}))
 
 (defn get-users "Gets list of friends" [username, limit]
-  (jdbc/execute! db/datasource
-                 ["SELECT * FROM user WHERE username LIKE ? LIMIT ?" (str username '%') (Integer/parseInt limit)] {:builder-fn rs/as-unqualified-maps}))
+  (get (jdbc/execute-one! db/datasource
+    ["SELECT GROUP_CONCAT(username) AS usernames FROM user WHERE username LIKE ? LIMIT ?" (str username "%") (Integer/parseInt limit)]) :usernames ""))

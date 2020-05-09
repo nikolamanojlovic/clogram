@@ -1,13 +1,13 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Typography, Button, Paper, Divider, Avatar, ButtonGroup, IconButton } from '@material-ui/core';
+import { Card, CardContent, Typography, Button, Paper, Divider, Avatar, ButtonGroup, IconButton, Popover } from '@material-ui/core';
 import LogInForm from "../components/LogInForm";
 import SignUpFrom from '../components/SignUpForm';
 import { FEED_PAGE, PROFILE_PAGE } from '../helpers/constants';
 import { Grid } from "@material-ui/core";
 import { SettingsOutlined, CameraOutlined, ImageSearchOutlined, ImageSearchTwoTone, ImageSearchRounded } from '@material-ui/icons';
-import { fetchFriendsForUser } from '../services/userService';
+import { fetchFriendsForUser, deleteUser } from '../services/userService';
 import { fetchPostsForUser } from '../services/postService';
 import Post from '../components/Post';
 
@@ -79,6 +79,29 @@ const useStyles = makeStyles({
         float: 'left',
         backgroundColor: "#FFFFFF",
         paddingTop: 20
+    },
+    popover: {
+        marginTop: '15px',
+        textAlign: 'center',
+        maxHeight: 1000,
+        minWidth: 1000
+    },
+    paper: {
+        boxShadow: '0px 19px 54px 0px rgba(50,50,50,0.08)'
+    },
+    buttonPopover: {
+        color: '#000000',
+        fontWeight: 'normal',
+        background: 'transparent',
+        textTransform: 'none',
+        display: 'block',
+        margin: 5,
+        '&:hover': {
+            backgroundColor: 'transparent'
+        }
+    },
+    buttonPopoverDanger: {
+        color: '#ff1744'
     }
 });
 
@@ -86,6 +109,8 @@ const ProfilePageContent = () => {
     const user = useSelector(state => state.userReducer.user);
     const friends = useSelector(state => state.userReducer.friends);
     const posts = useSelector(state => state.postsReducer.usersPosts);
+
+    const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
         fetchFriendsForUser(user.username)
@@ -109,6 +134,43 @@ const ProfilePageContent = () => {
         }
     }
 
+    const _handlePopup = (e) => {
+        setAnchorEl(anchorEl != null ? null : e.currentTarget);
+    }
+
+    const _handleClosePopup = () => {
+        setAnchorEl(null)
+    }
+
+    const _renderPopover = () => {
+        return (
+            <Popover className={classes.popover} open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={_handleClosePopup}
+                anchorOrigin={{
+                    vertical: 'center',
+                    horizontal: 'right',
+                }} transformOrigin={{
+                    vertical: 'center',
+                    horizontal: 'left',
+                }}
+                PaperProps={{ className: classes.paper }}>
+                <Button className={classes.buttonPopover} type="submit" disableRipple={true}>
+                    Upload profile photo
+                </Button>
+                <Button className={`${classes.buttonPopover} ${classes.buttonPopoverDanger}`} type="submit" disableRipple={true}>
+                    Delete profile
+            </Button>
+            </Popover>
+        );
+    }
+
+    const _deleteProfile = () => {
+        deleteUser(user.username);
+    }
+
+    const _uploadProfilePhoto = () => {
+        
+    }
+
     return (
         <Fragment>
             <Grid className={classes.root}
@@ -128,7 +190,7 @@ const ProfilePageContent = () => {
                     <Grid className={classes.item} item>
                         <div className={classes.block}>
                             <Typography className={classes.username} variant="h5" gutterBottom>{user.username}</Typography>
-                            <IconButton className={classes.icon}>
+                            <IconButton className={classes.icon} onClick={(e) => _handlePopup(e)}>
                                 <SettingsOutlined />
                             </IconButton>
                         </div>
@@ -143,12 +205,13 @@ const ProfilePageContent = () => {
                 </Grid>
                 <Divider className={classes.divider} />
                 {
-                   posts == null || posts.length === 0 ? <div className={classes.itemNoPosts}><ImageSearchRounded className={classes.iconNoPosts} /></div> : <span/>
+                    posts == null || posts.length === 0 ? <div className={classes.itemNoPosts}><ImageSearchRounded className={classes.iconNoPosts} /></div> : <span />
                 }
             </Grid>
             <div className={classes.wrapper}>
                 {_renderPosts()}
             </div>
+            {_renderPopover()}
         </Fragment>
     );
 }

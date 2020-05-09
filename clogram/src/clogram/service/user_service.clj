@@ -17,5 +17,5 @@
 (defn get-user-friends "Gets list of friends" [username]
   (user-dao/get-user-friends username))
 
-(defn search-for-users "Gets list of friends" [username limit]
+(defn search-for-users "Search users" [username limit]
   (user-dao/get-users username limit))
