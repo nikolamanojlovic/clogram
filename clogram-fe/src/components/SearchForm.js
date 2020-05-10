@@ -8,6 +8,7 @@ import { store } from '../store';
 import { setFriendAction } from '../actions/userActions';
 import { changePageAction } from '../actions/pageActions';
 import { FRIEND_PROFILE_PAGE } from '../helpers/constants';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
     formControl: {
@@ -38,19 +39,22 @@ const useStyles = makeStyles({
 
 const SearchForm = () => {
     const classes = useStyles();
-    const [values, setValues] = useState({
-        suggestions: []
-    });
+
+    const [suggestions, setSuggestions] = useState([]);
+    const [input, setInput] = useState("");
 
     const _search = (text) => {
+        setInput(text);
         searchUsers(text).then(function (data) {
-            setValues({ suggestions: data })
+            setSuggestions(data);
         });
     }
 
     const _openFriendProfile = (username) => {
         store.dispatch(setFriendAction(username));
         store.dispatch(changePageAction(FRIEND_PROFILE_PAGE));
+        setSuggestions([]);
+        setInput("");
     }
 
     return (
@@ -60,11 +64,12 @@ const SearchForm = () => {
                 option: classes.option
             }}
             noOptionsText="No users found."
+            inputValue={input}
             disableClearable={true}
             onChange={(e, value) => _openFriendProfile(value)}
-            options={values.suggestions}
+            options={suggestions}
             renderInput={(params) => (
-                <TextField {...params} variant="standard" placeholder="Search" onKeyUp={e => _search(e.target.value)} />
+                <TextField {...params} variant="standard" placeholder="Search" onChange={e => _search(e.target.value)} />
             )}>
         </Autocomplete>
     );

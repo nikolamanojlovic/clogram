@@ -10,6 +10,7 @@ import { FEED_PAGE, PROFILE_PAGE } from '../helpers/constants';
 import { store } from '../store';
 import { changePageAction } from '../actions/pageActions';
 import { createPost } from '../services/postService';
+import { setFriendAction } from '../actions/userActions';
 
 const useStyles = makeStyles({
     root: {
@@ -66,6 +67,7 @@ const useStyles = makeStyles({
 
 const _changePage = (e, page) => {
     e.preventDefault();
+    store.dispatch(setFriendAction(""));
     store.dispatch(changePageAction(page));
 }
 

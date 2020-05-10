@@ -19,3 +19,9 @@
 
 (defn search-for-users "Search users" [username limit]
   (user-dao/get-users username limit))
+
+(defn follow "Follow" [username friend]
+  (user-dao/follow username friend))
+
+(defn unfollow "Unfollow" [username friend]
+  (user-dao/unfollow username friend))

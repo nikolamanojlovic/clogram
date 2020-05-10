@@ -33,3 +33,15 @@
     (try
       (response-utils/response (json/write-str (user-service/search-for-users (get inputs :username "") (get inputs :limit ""))))
       (catch  Exception e (response-utils/status (response-utils/response "user.friends.general.error") 400)))))
+
+(defn follow "Follows user as a friend" [req]
+(let [inputs (get-parameters req)]
+  (try
+    (response-utils/response (json/write-str (user-service/follow (get inputs :username "") (get inputs :friend ""))))
+    (catch  Exception e (response-utils/status (response-utils/response "user.follow.general.error") 400)))))
+
+(defn unfollow "Unfollows user" [req]
+(let [inputs (get-parameters req)]
+  (try
+    (response-utils/response (json/write-str (user-service/unfollow (get inputs :username "") (get inputs :friend ""))))
+    (catch  Exception e (response-utils/status (response-utils/response "user.unfollow.general.error") 400)))))

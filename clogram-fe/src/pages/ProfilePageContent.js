@@ -142,6 +142,15 @@ const ProfilePageContent = () => {
         setAnchorEl(null)
     }
 
+    const _deleteProfile = (e) => {
+        e.preventDefault();
+        deleteUser(user.username);
+    }
+
+    const _uploadProfilePhoto = () => {
+        
+    }
+
     const _renderPopover = () => {
         return (
             <Popover className={classes.popover} open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={_handleClosePopup}
@@ -156,19 +165,11 @@ const ProfilePageContent = () => {
                 <Button className={classes.buttonPopover} type="submit" disableRipple={true}>
                     Upload profile photo
                 </Button>
-                <Button className={`${classes.buttonPopover} ${classes.buttonPopoverDanger}`} type="submit" disableRipple={true}>
+                <Button className={`${classes.buttonPopover} ${classes.buttonPopoverDanger}`} type="submit" disableRipple={true} onClick={(e) => _deleteProfile(e)}>
                     Delete profile
             </Button>
             </Popover>
         );
-    }
-
-    const _deleteProfile = () => {
-        deleteUser(user.username);
-    }
-
-    const _uploadProfilePhoto = () => {
-        
     }
 
     return (

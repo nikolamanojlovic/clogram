@@ -105,3 +105,27 @@ export const deleteUser = (username) => {
         store.dispatch(addMessageAction(error.response.data));
     })
 }
+
+export const follow = (username, friend) => {
+    store.dispatch(clearMessageAction());
+    
+    axios.post(API + 'user/follow', {
+        username: username,
+        friend: friend
+    }).then((response) => {
+    }).catch((error) => {
+        store.dispatch(addMessageAction(error.response.data));
+    })
+}
+
+export const unfollow = (username, friend) => {
+    store.dispatch(clearMessageAction());
+    
+    axios.post(API + 'user/unfollow', {
+        username: username,
+        friend: friend
+    }).then((response) => {
+    }).catch((error) => {
+        store.dispatch(addMessageAction(error.response.data));
+    })
+}

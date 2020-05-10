@@ -27,3 +27,11 @@
 (defn get-users "Gets list of friends" [username, limit]
   (get (jdbc/execute-one! db/datasource
     ["SELECT GROUP_CONCAT(username) AS usernames FROM user WHERE username LIKE ? LIMIT ?" (str username "%") (Integer/parseInt limit)]) :usernames ""))
+
+(defn follow "Follows user" [username friend]
+(jdbc/execute-one! db/datasource
+                   ["INSERT INTO friends VALUES (?, ?)" username friend] {:builder-fn rs/as-unqualified-maps}))
+
+(defn unfollow "Unfollows user" [username friend]
+(jdbc/execute-one! db/datasource
+                   ["DELETE FROM friends WHERE username=? AND friend=?" username friend] {:builder-fn rs/as-unqualified-maps}))
