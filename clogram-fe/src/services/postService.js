@@ -3,6 +3,8 @@ import { API, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET } from '../helpers/const
 import { addMessageAction, clearMessageAction } from '../actions/messageActions';
 import { fetchPostsAction, fetchPostsForUserAction } from '../actions/postActions';
 import { store } from '../store';
+import { fetchUser } from './userService';
+import { userLogInAction } from '../actions/userActions';
 
 export const paginatePosts = (username, page, offset) => {
     store.dispatch(clearMessageAction());
@@ -16,7 +18,7 @@ export const paginatePosts = (username, page, offset) => {
     }).then((response) => {
         store.dispatch(fetchPostsAction(response.data));
     }).catch((error) => {
-        store.dispatch(addMessageAction(error.response.data));
+        store.dispatch(addMessageAction(error.data));
     })
 }
 
@@ -33,29 +35,29 @@ export const createPost = (username, image, description) => {
             'Content-Type': 'multipart/form-data'
         }
     }).then((response) => {
-        if (response.status === 200) {
-            paginatePosts(username, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET);
-        }
+        paginatePosts(username, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET);
     }).catch((error) => {
-        store.dispatch(addMessageAction(error.response.data));
+        store.dispatch(addMessageAction(error.data));
     })
 }
 
 export const uploadProfilePicture = (username, image) => {
     store.dispatch(clearMessageAction());
 
-    let data = new FormData();
-    data.append('username', username)
-    data.append('image', image)
+    let multipart = new FormData();
+    multipart.append('username', username)
+    multipart.append('image', image)
 
-    axios.post(API + 'content/uploadProfilePic', data, {
+    axios.post(API + 'content/uploadProfilePicture', multipart, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
     }).then((response) => {
+        fetchUser(username).then((user) => {
+            store.dispatch(userLogInAction(user));
+        })
     }).catch((error) => {
-        console.log(error);
-        store.dispatch(addMessageAction(error.response.data));
+        store.dispatch(addMessageAction(error.data));
     })
 }
 
@@ -69,7 +71,7 @@ export const fetchPostsForUser = (username) => {
     }).then((response) => {
         store.dispatch(fetchPostsForUserAction(response.data));
     }).catch((error) => {
-        store.dispatch(addMessageAction(error.response.data));
+        store.dispatch(addMessageAction(error.data));
     })
 }
 
@@ -83,7 +85,7 @@ export const fetchPostsForFriend = (username) => {
     }).then((response) => {
         return response.data;
     }).catch((error) => {
-        store.dispatch(addMessageAction(error.response.data));
+        store.dispatch(addMessageAction(error.data));
     })
 }
 
@@ -95,7 +97,7 @@ export const likePost = (id, username, likedBy) => {
         username: username,
         liked_by: likedBy
     }).catch((error) => {
-        store.dispatch(addMessageAction(error.response.data));
+        store.dispatch(addMessageAction(error.data));
     })
 }
 
@@ -107,6 +109,6 @@ export const dislikePost = (id, username, likedBy) => {
         username: username,
         liked_by: likedBy
     }).catch((error) => {
-        store.dispatch(addMessageAction(error.response.data));
+        store.dispatch(addMessageAction(error.data));
     })
 }

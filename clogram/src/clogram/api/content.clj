@@ -28,10 +28,13 @@
       (catch  Exception e (response-utils/status (response-utils/response "create.post.general.error") 400)))))
 
 (defn upload-profile-picture "Uploads profile picture for user" [params]
+  (println params)
   (let [inputs (walk/keywordize-keys params)]
+    (println inputs)
     (try
       (response-utils/response (json/write-str (content-service/upload-profile-picture (get inputs :username "") (get inputs :image ""))))
-      (catch  Exception e (response-utils/status (response-utils/response "create.post.general.error") 400)))))
+      (catch  Exception e (println (.getMessage e))))))
+    ;;  (catch  Exception e (response-utils/status (response-utils/response "create.profile.picture.general.error") 400)))))
 
 (defn get-posts-for-username "Gets posts for username" [params]
   (let [inputs (walk/keywordize-keys params)]
@@ -43,8 +46,7 @@
   (let [inputs (get-parameters req)]
     (try
       (response-utils/response (json/write-str (content-service/like-post (get inputs :id "") (get inputs :username "") (get inputs :liked_by ""))))
-      (catch  Exception e (println (.getMessage e))))))
-      ;;(catch  Exception e (response-utils/status (response-utils/response "like.post.general.error") 400)))))
+      (catch  Exception e (response-utils/status (response-utils/response "like.post.general.error") 400)))))
 
 (defn dislike-post "Dislike post a post by user" [req]
   (let [inputs (get-parameters req)]

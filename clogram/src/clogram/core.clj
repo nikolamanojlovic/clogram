@@ -26,7 +26,7 @@
 
 
   (wrap-multipart-params (POST "/content/createPost" req (content/create-post (:multipart-params req))))
-  (wrap-multipart-params (POST "/content/uploadProfilePic" req (content/upload-profile-picture (:multipart-params req))))
+  (wrap-multipart-params (POST "/content/uploadProfilePicture" req (content/upload-profile-picture (:multipart-params req))))
   (wrap-params (GET "/content/paginatePosts" params (content/paginate-posts (:query-params params))))
   (wrap-params (GET "/content/fetchPostsForUser" params (content/get-posts-for-username (:query-params params))))
   (POST "/content/likePost" req (content/like-post req))
@@ -41,6 +41,7 @@
   (let [port (Integer/parseInt (or (System/getenv "PORT") "9002"))]
     (server/run-server (->
                         (wrap-defaults #'app (site-defaults :security false))
+                        (wrap-multipart-params)
                         (wrap-cors  :access-control-allow-origin [#".*"] :access-control-allow-headers ["Content-Type" "Authorization"]
                                     :access-control-allow-methods [:get :put :post :delete] :available-media-types ["multipart/form-data" "application/json"]))
                        {:port port})))

@@ -73,9 +73,17 @@ const useStyles = makeStyles({
     }
 });
 
+const _renderProfilePhoto = (photo) => {
+
+    if (photo == null) {
+        return;
+    }
+    return "data:image/jpeg;base64," + Buffer.from(photo).toString("base64");
+}
+
 const Post = (props) => {
     const classes = useStyles();
-  //  let isLikedByUser = props.post.liked_by != null && props.post.liked_by.includes(props.user.username);
+
     const [isLikedByUser, setIsLikedByUser] = useState(props.post.liked_by != null && props.post.liked_by.includes(props.user.username));
 
     const _renderImage = () => {
@@ -142,7 +150,7 @@ const Post = (props) => {
             {!props.isPreview ?
                 <CardHeader className={classes.header} title={<b>{props.post.username}</b>}
                     subheader={moment(new Date(props.post.post_timestamp)).format(DEFAULT_DATE_TIME_FORMAT).toString()}
-                    avatar={<Avatar className={classes.avatar} src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />} />
+                    avatar={<Avatar className={classes.avatar} src={_renderProfilePhoto(props.post.profile_photo)} />} />
                 : <span />}
             {!props.isPreview ? <Divider className={classes.divider} /> : <span />}
             {_renderImage()}

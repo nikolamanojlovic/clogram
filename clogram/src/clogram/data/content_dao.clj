@@ -33,7 +33,7 @@
 
 (defn save-profile-picture "Saves profile picture for user" [username image]
 (let [count (jdbc/execute-one! db/datasource
-    ["INSERT INTO user(profile_photo) VALUES (?) WHERE username = ?" (file->bytes (get image :tempfile)) username] {:builder-fn rs/as-unqualified-maps})]
+    ["UPDATE user SET profile_photo=? WHERE username = ?" (file->bytes (get image :tempfile)) username] {:builder-fn rs/as-unqualified-maps})]
   (if (= 0 (get count :next.jdbc/update-count)) (throw (Exception. (str "Could not save profile picture for user" username))))))
 
 (defn like-post "Like post" [id, username, liked_by]

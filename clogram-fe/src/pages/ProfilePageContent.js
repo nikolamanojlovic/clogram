@@ -8,7 +8,7 @@ import { FEED_PAGE, PROFILE_PAGE } from '../helpers/constants';
 import { Grid } from "@material-ui/core";
 import { SettingsOutlined, CameraOutlined, ImageSearchOutlined, ImageSearchTwoTone, ImageSearchRounded } from '@material-ui/icons';
 import { fetchFriendsForUser, deleteUser } from '../services/userService';
-import { fetchPostsForUser } from '../services/postService';
+import { fetchPostsForUser, uploadProfilePicture } from '../services/postService';
 import Post from '../components/Post';
 
 const useStyles = makeStyles({
@@ -100,10 +100,28 @@ const useStyles = makeStyles({
             backgroundColor: 'transparent'
         }
     },
+    buttonPopoverUpload: {
+        color: '#000000',
+        display: 'block',
+        textAlign: 'left',
+        fontSize: '0.875rem',
+        margin: 10
+    },
     buttonPopoverDanger: {
         color: '#ff1744'
+    },
+    uploader: {
+        display: 'none'
     }
 });
+
+const _renderProfilePhoto = (photo) => {
+
+    if (photo == null) {
+        return;
+    }
+    return "data:image/jpeg;base64," + Buffer.from(photo).toString("base64");
+}
 
 const ProfilePageContent = () => {
     const user = useSelector(state => state.userReducer.user);
@@ -147,8 +165,12 @@ const ProfilePageContent = () => {
         deleteUser(user.username);
     }
 
-    const _uploadProfilePhoto = () => {
-        
+    const _uploadProfilePhoto = (e) => {
+        e.preventDefault();
+
+        let image = document.getElementById("profile-image").files[0];
+        console.log(image)
+        uploadProfilePicture(user.username, image);
     }
 
     const _renderPopover = () => {
@@ -162,9 +184,10 @@ const ProfilePageContent = () => {
                     horizontal: 'left',
                 }}
                 PaperProps={{ className: classes.paper }}>
-                <Button className={classes.buttonPopover} type="submit" disableRipple={true}>
-                    Upload profile photo
-                </Button>
+                <label className={classes.buttonPopoverUpload}>
+                    <span>Upload profile photo</span>
+                    <input id="profile-image" className={classes.uploader} type="file" name="image" accept="image/*" onChange={(e) => _uploadProfilePhoto(e)} />
+                </label>
                 <Button className={`${classes.buttonPopover} ${classes.buttonPopoverDanger}`} type="submit" disableRipple={true} onClick={(e) => _deleteProfile(e)}>
                     Delete profile
             </Button>
@@ -186,7 +209,7 @@ const ProfilePageContent = () => {
                     justify="flex-start"
                     alignItems="center">
                     <Grid item className={classes.item} xs={3}>
-                        <Avatar className={classes.avatar} alt="user.username" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
+                        <Avatar className={classes.avatar} src={_renderProfilePhoto(user.profile_photo)} />
                     </Grid>
                     <Grid className={classes.item} item>
                         <div className={classes.block}>

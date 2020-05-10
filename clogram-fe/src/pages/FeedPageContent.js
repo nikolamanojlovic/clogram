@@ -36,7 +36,6 @@ const FeeedPageContent = () => {
     }, []);
 
     const _renderPosts = () => {
-        console.log(posts)
         if (posts == null || posts.length === 0) {
             return <div className={classes.item}><Typography className={classes.textNoPosts} variant="h2">No posts found.</Typography></div>;
         }
