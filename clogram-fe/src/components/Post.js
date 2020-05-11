@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button, Card, Typography, CardMedia, CardHeader, Avatar, CardContent, Divider, CardActionArea, CardActions, IconButton } from '@material-ui/core';
+import { TextField, Button, Card, Typography, CardMedia, CardHeader, Avatar, CardContent, Divider, CardActionArea, CardActions, IconButton, Popover } from '@material-ui/core';
 import { logIn } from '../services/userService';
 import ErrorMessage from './ErrorMessage';
 import { clearMessageAction } from '../actions/messageActions';
@@ -8,6 +8,7 @@ import moment from "moment";
 import { DEFAULT_DATE_TIME_FORMAT } from '../helpers/constants';
 import { FavoriteBorderOutlined, FavoriteRounded, ChatBubbleOutline } from '@material-ui/icons';
 import { likePost, dislikePost } from '../services/postService';
+import CommentPopover from './CommentPopover';
 
 const useStyles = makeStyles({
     root: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
     },
     rootPreview: {
         display: 'inline',
-        margin: 10
+        margin: 10,
     },
     header: {
         cursor: 'default',
@@ -34,6 +35,7 @@ const useStyles = makeStyles({
     mediaPriview: {
         height: 300,
         width: 300,
+        marginBottom: 15,
         objectFit: 'contain'
     },
     content: {
@@ -70,6 +72,10 @@ const useStyles = makeStyles({
     divider: {
         marginTop: 5,
         marginBottom: 5
+    },
+    commentPopover: {
+        width: '50%',
+        height: '50%'
     }
 });
 
@@ -85,6 +91,7 @@ const Post = (props) => {
     const classes = useStyles();
 
     const [isLikedByUser, setIsLikedByUser] = useState(props.post.liked_by != null && props.post.liked_by.includes(props.user.username));
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const _renderImage = () => {
         let post = props.post;
@@ -127,6 +134,15 @@ const Post = (props) => {
         }
     }
 
+    const _handleOpenCommentPopover = (e) => {
+        e.preventDefault();
+        setAnchorEl(e.currentTarget.parentElement.parentElement);
+    }
+
+    const _handleClosePopover = () => {
+        setAnchorEl(null);
+    }
+
     const _likePost = () => {
         let post = props.post;
         let user = props.user;
@@ -146,31 +162,34 @@ const Post = (props) => {
     }
 
     return (
-        <Card key={props.key} className={!props.isPreview ? classes.root : classes.rootPreview}>
-            {!props.isPreview ?
-                <CardHeader className={classes.header} title={<b>{props.post.username}</b>}
-                    subheader={moment(new Date(props.post.post_timestamp)).format(DEFAULT_DATE_TIME_FORMAT).toString()}
-                    avatar={<Avatar className={classes.avatar} src={_renderProfilePhoto(props.post.profile_photo)} />} />
-                : <span />}
-            {!props.isPreview ? <Divider className={classes.divider} /> : <span />}
-            {_renderImage()}
-            {!props.isPreview ? <Divider className={classes.divider} /> : <span />}
-            {!props.isPreview ?
-                <CardActions className={classes.content} disableSpacing>
-                    <IconButton className={classes.iconButton} disableRipple={true}>
-                        {_renderLikeButton()}
-                    </IconButton>
-                    <IconButton className={classes.iconButton} disableRipple={true}>
-                        <ChatBubbleOutline className={classes.icon} />
-                    </IconButton>
-                    {_renderLikes()}
-                </CardActions> : <span />}
-            {!props.isPreview ?
-                <CardContent className={classes.content}>
-                    {props.post.descrip == "" ? <span /> : <Typography><b>{props.post.username}</b> {props.post.descrip}</Typography>}
-                    {_renderComments()}
-                </CardContent> : <span />}
-        </Card>
+        <Fragment>
+            <Card key={props.key} className={!props.isPreview ? classes.root : classes.rootPreview}>
+                {!props.isPreview ?
+                    <CardHeader className={classes.header} title={<b>{props.post.username}</b>}
+                        subheader={moment(new Date(props.post.post_timestamp)).format(DEFAULT_DATE_TIME_FORMAT).toString()}
+                        avatar={<Avatar className={classes.avatar} src={_renderProfilePhoto(props.post.profile_photo)} />} />
+                    : <span />}
+                {!props.isPreview ? <Divider className={classes.divider} /> : <span />}
+                {_renderImage()}
+                {!props.isPreview ? <Divider className={classes.divider} /> : <span />}
+                {!props.isPreview ?
+                    <CardActions className={classes.content} disableSpacing>
+                        <IconButton className={classes.iconButton} disableRipple={true}>
+                            {_renderLikeButton()}
+                        </IconButton>
+                        <IconButton className={classes.iconButton} disableRipple={true} onClick={(e) => _handleOpenCommentPopover(e)}>
+                            <ChatBubbleOutline className={classes.icon} />
+                        </IconButton>
+                        {_renderLikes()}
+                    </CardActions> : <span />}
+                {!props.isPreview ?
+                    <CardContent className={classes.content}>
+                        {props.post.descrip == "" ? <span /> : <Typography><b>{props.post.username}</b> {props.post.descrip}</Typography>}
+                        {_renderComments()}
+                    </CardContent> : <span />}
+            </Card>
+            <CommentPopover open={Boolean(anchorEl)} anchorEl={anchorEl} handleClosePopover={_handleClosePopover}/>
+        </Fragment>
     );
 }
 

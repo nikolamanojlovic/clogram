@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET } from '../helpers/constants';
+import { API, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET, PROFILE_PAGE } from '../helpers/constants';
 import { addMessageAction, clearMessageAction } from '../actions/messageActions';
 import { fetchPostsAction, fetchPostsForUserAction } from '../actions/postActions';
 import { store } from '../store';
@@ -22,7 +22,7 @@ export const paginatePosts = (username, page, offset) => {
     })
 }
 
-export const createPost = (username, image, description) => {
+export const createPost = (username, image, description, currentPage) => {
     store.dispatch(clearMessageAction());
 
     let data = new FormData();
@@ -35,7 +35,11 @@ export const createPost = (username, image, description) => {
             'Content-Type': 'multipart/form-data'
         }
     }).then((response) => {
-        paginatePosts(username, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET);
+        if (currentPage === PROFILE_PAGE) {
+            fetchPostsForUser(username);
+        } else {
+            paginatePosts(username, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET);
+        }
     }).catch((error) => {
         store.dispatch(addMessageAction(error.data));
     })

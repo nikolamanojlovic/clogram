@@ -105,6 +105,14 @@ const useStyles = makeStyles({
     }
 });
 
+const _renderProfilePhoto = (photo) => {
+
+    if (photo == null) {
+        return;
+    }
+    return "data:image/jpeg;base64," + Buffer.from(photo).toString("base64");
+}
+
 const FriendPageContent = () => {
     const currentUser = useSelector(state => state.userReducer.user);
     const friend = useSelector(state => state.userReducer.friend);
@@ -118,13 +126,13 @@ const FriendPageContent = () => {
         fetchUser(friend).then((data) => {
             setUser(data);
         });
-    }, friend);
+    }, [friend]);
 
     useEffect(() => {
         fetchFriendsForFriend(friend).then((data) => {
             setFriends(data);
         });
-    }, friend);
+    }, [friend]);
 
     useEffect(() => {
         fetchFriendsForFriend(currentUser.username).then((data) => {
@@ -136,7 +144,7 @@ const FriendPageContent = () => {
         fetchPostsForFriend(friend).then((data) => {
             setPosts(data)
         });
-    }, friend);
+    }, [friend]);
 
     const classes = useStyles();
 
@@ -179,7 +187,7 @@ const FriendPageContent = () => {
                         justify="flex-start"
                         alignItems="center">
                         <Grid item className={classes.item} xs={3}>
-                            <Avatar className={classes.avatar} alt="user.username" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
+                            <Avatar className={classes.avatar} src={_renderProfilePhoto(user.profile_photo)} />
                         </Grid>
                         <Grid className={classes.item} item>
                             <div className={classes.block}>

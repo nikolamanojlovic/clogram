@@ -90,12 +90,12 @@ const TopNavigation = () => {
         setAnchorEl(null)
     }
 
-    const _share = (e, username, description) => {
+    const _share = (e, username, description, currentPage) => {
         e.preventDefault();
 
         let image = document.getElementById("post-image").files[0];
 
-        createPost(username, image, description);
+        createPost(username, image, description, currentPage);
         _handleClosePopup();
     }
 
@@ -115,7 +115,7 @@ const TopNavigation = () => {
                 <TextField id="upload-description" className={classes.textField} variant="outlined" placeholder="Add description" value={description}
                     rows={4} rowsMax={4} multiline onChange={(e) => setDescription(e.target.value)} />
                 <Divider className={classes.divider} />
-                <Button className={classes.share} onClick={(e) => _share(e, user.username, description)}>Share</Button>
+                <Button className={classes.share} onClick={(e) => _share(e, user.username, description, currentPage)}>Share</Button>
             </Popover>
         );
     }
