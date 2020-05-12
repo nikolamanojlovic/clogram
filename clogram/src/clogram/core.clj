@@ -41,7 +41,7 @@
 
   ;; COMMENTS
   (wrap-params (GET "/content/comments" params (content/get-comments-for-post (:query-params params))))
-  (POST "/content/addCOmment" req (content/comment-post req))
+  (POST "/content/addComment" req (content/comment-post req))
   (POST "/content/removeComment" req (content/remove-comment-from-post req))
 
   ;; FALLBACK

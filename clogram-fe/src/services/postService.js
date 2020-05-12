@@ -6,6 +6,7 @@ import { store } from '../store';
 import { fetchUser } from './userService';
 import { userLogInAction } from '../actions/userActions';
 
+// POSTS
 export const paginatePosts = (username, page, offset) => {
     store.dispatch(clearMessageAction());
 
@@ -45,6 +46,7 @@ export const createPost = (username, image, description, currentPage) => {
     })
 }
 
+// PROFILE
 export const uploadProfilePicture = (username, image) => {
     store.dispatch(clearMessageAction());
 
@@ -93,6 +95,7 @@ export const fetchPostsForFriend = (username) => {
     })
 }
 
+// LIKES
 export const likePost = (id, username, likedBy) => {
     store.dispatch(clearMessageAction());
 
@@ -112,6 +115,47 @@ export const dislikePost = (id, username, likedBy) => {
         id: id,
         username: username,
         liked_by: likedBy
+    }).catch((error) => {
+        store.dispatch(addMessageAction(error.data));
+    })
+}
+
+// COMMENTS
+export const fetchCommentsForPost = (postId, username) => {
+    store.dispatch(clearMessageAction());
+
+    return axios.get(API + 'content/comments', {
+        params: {
+            post_id: postId,
+            username: username
+        }
+    }).then((response) => {
+        return response.data;
+    }).catch((error) => {
+        store.dispatch(addMessageAction(error.data));
+    })
+}
+
+export const commentPost = (postId, username, comment, postedBy) => {
+    store.dispatch(clearMessageAction());
+
+    axios.post(API + 'content/addComment', {
+        post_id: postId,
+        username: username,
+        comment: comment,
+        posted_by: postedBy
+    }).catch((error) => {
+        store.dispatch(addMessageAction(error.data));
+    })
+}
+
+export const removeComment = (postId, username, ord) => {
+    store.dispatch(clearMessageAction());
+
+    axios.post(API + 'content/removeComment', {
+        post_id: postId,
+        username: username,
+        ord: ord
     }).catch((error) => {
         store.dispatch(addMessageAction(error.data));
     })
