@@ -1,15 +1,14 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Typography, Button, Paper, Divider, Avatar, ButtonGroup, IconButton, Popover } from '@material-ui/core';
-import LogInForm from "../components/LogInForm";
-import SignUpFrom from '../components/SignUpForm';
-import { FEED_PAGE, PROFILE_PAGE } from '../helpers/constants';
+import { Typography, Button, Divider, Avatar, IconButton, Popover, CircularProgress } from '@material-ui/core';
 import { Grid } from "@material-ui/core";
-import { SettingsOutlined, CameraOutlined, ImageSearchOutlined, ImageSearchTwoTone, ImageSearchRounded } from '@material-ui/icons';
+import { SettingsOutlined, ImageSearchRounded } from '@material-ui/icons';
 import { fetchFriendsForUser, deleteUser } from '../services/userService';
 import { fetchPostsForUser, uploadProfilePicture } from '../services/postService';
 import Post from '../components/Post';
+import { store } from '../store';
+import { removePostsForUserAction } from '../actions/postActions';
 
 const useStyles = makeStyles({
     root: {
@@ -76,7 +75,7 @@ const useStyles = makeStyles({
     },
     wrapper: {
         maxWidth: '60%',
-        float: 'left',
+        minWidth: '60%',
         backgroundColor: "#FFFFFF",
         paddingTop: 20
     },
@@ -131,23 +130,20 @@ const ProfilePageContent = () => {
     const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
+        store.dispatch(removePostsForUserAction());
         fetchFriendsForUser(user.username)
-    }, []);
+    }, [user.username]);
 
     useEffect(() => {
         fetchPostsForUser(user.username)
-    }, []);
+    }, [user.username]);
 
     const classes = useStyles();
 
     const _renderPosts = () => {
         if (posts != null && posts.length > 0) {
             let items = [];
-            posts.map(post => {
-                items.push(
-                    <Post user={user} post={post} isPreview={true} />
-                );
-            });
+            posts.map((post, i) => items.push(<Post key={i} user={user} post={post} isPreview={true} />));
             return items;
         }
     }
@@ -229,7 +225,8 @@ const ProfilePageContent = () => {
                 </Grid>
                 <Divider className={classes.divider} />
                 {
-                    posts == null || posts.length === 0 ? <div className={classes.itemNoPosts}><ImageSearchRounded className={classes.iconNoPosts} /></div> : <span />
+                    !Boolean(posts) ? <div className={classes.itemNoPosts}><CircularProgress /></div> :
+                        (posts.length === 0 ? <div className={classes.itemNoPosts}><ImageSearchRounded className={classes.iconNoPosts} /></div> : <span />)
                 }
             </Grid>
             <div className={classes.wrapper}>

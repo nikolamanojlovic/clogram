@@ -87,7 +87,8 @@ const TopNavigation = () => {
     }
 
     const _handleClosePopup = () => {
-        setAnchorEl(null)
+        setAnchorEl(null);
+        setDescription("");
     }
 
     const _share = (e, username, description, currentPage) => {
@@ -124,7 +125,7 @@ const TopNavigation = () => {
         <AppBar className={classes.root} position="sticky">
             <Toolbar className={classes.toolbar}>
                 <Typography className={classes.logo} variant='h4' onClick={(e) => _changePage(e, FEED_PAGE)}>Clogram</Typography>
-                <SearchForm />
+                <SearchForm user={user} />
                 <ButtonGroup className={classes.buttonGroup}>
                     <IconButton onClick={(e) => _handleOpenPopup(e)}>
                         {Boolean(anchorEl) ? <AddPhotoAlternate className={classes.icon} /> : <AddPhotoAlternateOutlined className={classes.icon} />}

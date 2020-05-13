@@ -1,14 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Typography, Button, Paper, Divider, Avatar, ButtonGroup, IconButton, Popover, CircularProgress } from '@material-ui/core';
-import LogInForm from "../components/LogInForm";
-import SignUpFrom from '../components/SignUpForm';
-import { FEED_PAGE, PROFILE_PAGE } from '../helpers/constants';
+import { Typography, Divider, Avatar, IconButton, CircularProgress } from '@material-ui/core';
 import { Grid } from "@material-ui/core";
-import { SettingsOutlined, CameraOutlined, ImageSearchOutlined, ImageSearchTwoTone, ImageSearchRounded, PersonAddOutlined, PersonAddDisabledOutlined } from '@material-ui/icons';
-import { fetchFriendsForUser, deleteUser, fetchUser, fetchFriendsForFriend, follow, unfollow } from '../services/userService';
-import { fetchPostsForUser, fetchPostsForFriend } from '../services/postService';
+import { ImageSearchRounded, PersonAddOutlined, PersonAddDisabledOutlined } from '@material-ui/icons';
+import { fetchUser, fetchFriendsForFriend, follow, unfollow } from '../services/userService';
+import { fetchPostsForFriend } from '../services/postService';
 import Post from '../components/Post';
 
 const useStyles = makeStyles({
@@ -116,7 +113,7 @@ const _renderProfilePhoto = (photo) => {
 const FriendPageContent = () => {
     const currentUser = useSelector(state => state.userReducer.user);
     const friend = useSelector(state => state.userReducer.friend);
-  
+
     const [user, setUser] = useState(undefined);
     const [friends, setFriends] = useState(undefined);
     const [isFriend, setIsFriend] = useState(false);
@@ -138,7 +135,7 @@ const FriendPageContent = () => {
         fetchFriendsForFriend(currentUser.username).then((data) => {
             setIsFriend(data.some(el => el.username === friend));
         });
-    }, []);
+    }, [currentUser.username, friend]);
 
     useEffect(() => {
         fetchPostsForFriend(friend).then((data) => {
@@ -151,11 +148,7 @@ const FriendPageContent = () => {
     const _renderPosts = () => {
         if (posts != null && posts.length > 0) {
             let items = [];
-            posts.map(post => {
-                items.push(
-                    <Post user={user} post={post} isPreview={true} />
-                );
-            });
+            posts.map(post => items.push(<Post user={user} post={post} isPreview={true} />));
             return items;
         }
     }
@@ -193,7 +186,7 @@ const FriendPageContent = () => {
                             <div className={classes.block}>
                                 <Typography className={classes.username} variant="h5" gutterBottom>{user.username}</Typography>
                                 <IconButton className={classes.icon} onClick={(e) => _follow(e)}>
-                                    {isFriend ? <PersonAddDisabledOutlined/> : <PersonAddOutlined />}
+                                    {isFriend ? <PersonAddDisabledOutlined /> : <PersonAddOutlined />}
                                 </IconButton>
                             </div>
                             <Typography className={classes.info} variant="subtitle1" gutterBottom>

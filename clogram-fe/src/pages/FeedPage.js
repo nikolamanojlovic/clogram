@@ -1,11 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from "react-redux";
-import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Typography, Button, Paper } from '@material-ui/core';
-import LogInForm from "../components/LogInForm";
-import SignUpFrom from '../components/SignUpForm';
-import { FEED_PAGE, PROFILE_PAGE, FRIEND_PROFILE_PAGE } from '../helpers/constants';
-import { Grid } from "@material-ui/core";
+import { PROFILE_PAGE, FRIEND_PROFILE_PAGE } from '../helpers/constants';
 import ProfilePageContent from './ProfilePageContent';
 import FeeedPageContent from './FeedPageContent';
 import FriendPageContent from './FriendPageContent';

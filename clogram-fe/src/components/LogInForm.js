@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
 import { logIn } from '../services/userService';
 import ErrorMessage from './ErrorMessage';
-import { clearMessageAction } from '../actions/messageActions';
 
 const useStyles = makeStyles({
     formControl: {

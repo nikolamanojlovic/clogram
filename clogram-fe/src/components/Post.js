@@ -1,14 +1,10 @@
 import React, { useState, Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button, Card, Typography, CardMedia, CardHeader, Avatar, CardContent, Divider, CardActionArea, CardActions, IconButton, Popover } from '@material-ui/core';
-import { logIn } from '../services/userService';
-import ErrorMessage from './ErrorMessage';
-import { clearMessageAction } from '../actions/messageActions';
+import { Card, Typography, CardHeader, Avatar, CardContent, Divider, CardActions, IconButton } from '@material-ui/core';
 import moment from "moment";
 import { DEFAULT_DATE_TIME_FORMAT } from '../helpers/constants';
 import { FavoriteBorderOutlined, FavoriteRounded, ChatBubbleOutline } from '@material-ui/icons';
 import { likePost, dislikePost } from '../services/postService';
-import CommentPopover from './CommentPopover';
 
 const useStyles = makeStyles({
     root: {
@@ -104,8 +100,8 @@ const Post = (props) => {
     }
 
     const _renderLikeButton = () => {
-        return isLikedByUser ? <FavoriteRounded className={classes.iconActive} onClick={() => _dislikePost()} />
-            : <FavoriteBorderOutlined className={classes.icon} onClick={() => _likePost()} />
+        return isLikedByUser ? <IconButton className={classes.iconButton} disableRipple={true} onClick={() => _dislikePost()}><FavoriteRounded className={classes.iconActive} /></IconButton>
+            : <IconButton className={classes.iconButton} disableRipple={true} onClick={() => _likePost()}><FavoriteBorderOutlined className={classes.icon} /></IconButton>
     }
 
     const _renderLikes = () => {
@@ -168,9 +164,7 @@ const Post = (props) => {
                 {!props.isPreview ? <Divider className={classes.divider} /> : <span />}
                 {!props.isPreview ?
                     <CardActions className={classes.content} disableSpacing>
-                        <IconButton className={classes.iconButton} disableRipple={true}>
-                            {_renderLikeButton()}
-                        </IconButton>
+                        {_renderLikeButton()}
                         <IconButton className={classes.iconButton} disableRipple={true} onClick={(e) => _handleOpenCommentPopover(e)}>
                             <ChatBubbleOutline className={classes.icon} />
                         </IconButton>

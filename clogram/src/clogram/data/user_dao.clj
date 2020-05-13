@@ -24,9 +24,9 @@
   (jdbc/execute! db/datasource
                  ["SELECT * FROM user WHERE username IN (SELECT friend FROM friends WHERE friends.username=?)" username] {:builder-fn rs/as-unqualified-maps}))
 
-(defn get-users "Gets list of friends" [username, limit]
+(defn get-users "Gets list of friends" [username current limit]
   (get (jdbc/execute-one! db/datasource
-    ["SELECT GROUP_CONCAT(username) AS usernames FROM user WHERE username LIKE ? LIMIT ?" (str username "%") (Integer/parseInt limit)]) :usernames ""))
+    ["SELECT GROUP_CONCAT(username) AS usernames FROM user WHERE username LIKE ? AND username != ? LIMIT ?" (str username "%") current (Integer/parseInt limit)]) :usernames ""))
 
 (defn follow "Follows user" [username friend]
 (jdbc/execute-one! db/datasource

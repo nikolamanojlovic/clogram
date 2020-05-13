@@ -27,7 +27,7 @@ const App = () => {
   const classes = useStyles();
 
   return (
-    <div className="App" className={classes.root}>
+    <div className={classes.root}>
       {user ? <NavigationBar /> : <Fragment />}
       <Grid className={classes.grid}
         container

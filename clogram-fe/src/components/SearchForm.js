@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button, InputAdornment, IconButton, Input, Icon, Popover, CircularProgress } from '@material-ui/core';
-import { SearchOutlined } from '@material-ui/icons';
+import { TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { searchUsers } from '../services/userService';
 import { store } from '../store';
 import { setFriendAction } from '../actions/userActions';
 import { changePageAction } from '../actions/pageActions';
 import { FRIEND_PROFILE_PAGE } from '../helpers/constants';
-import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
     formControl: {
@@ -37,7 +35,7 @@ const useStyles = makeStyles({
     }
 });
 
-const SearchForm = () => {
+const SearchForm = (props) => {
     const classes = useStyles();
 
     const [suggestions, setSuggestions] = useState([]);
@@ -45,7 +43,7 @@ const SearchForm = () => {
 
     const _search = (text) => {
         setInput(text);
-        searchUsers(text).then(function (data) {
+        searchUsers(text, props.user.username).then(function (data) {
             setSuggestions(data);
         });
     }

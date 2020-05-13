@@ -31,7 +31,7 @@
 (defn search-for-users "Get list of users that username matches" [params]
   (let [inputs (walk/keywordize-keys params)]
     (try
-      (response-utils/response (json/write-str (user-service/search-for-users (get inputs :username "") (get inputs :limit ""))))
+      (response-utils/response (json/write-str (user-service/search-for-users (get inputs :username "") (get inputs :current "") (get inputs :limit ""))))
       (catch  Exception e (response-utils/status (response-utils/response "user.friends.general.error") 400)))))
 
 (defn follow "Follows user as a friend" [req]

@@ -3,10 +3,11 @@ import { API, PAGINATION_SEARCH_LIMIT } from '../helpers/constants';
 import { userLogInAction, userLogOutAction, fetchFriendsAction } from '../actions/userActions';
 import { addMessageAction, clearMessageAction } from '../actions/messageActions';
 import { store } from '../store';
+import { removePostsAction } from '../actions/postActions';
 
 export const logIn = (username, password) => {
     store.dispatch(clearMessageAction());
-    
+
     axios.post(API + 'auth/login', {
         username: username,
         password: password
@@ -18,12 +19,13 @@ export const logIn = (username, password) => {
 }
 
 export const logOut = () => {
+    store.dispatch(removePostsAction());
     store.dispatch(userLogOutAction());
 }
 
 export const signUp = (username, firstName, lastName, email, password) => {
     store.dispatch(clearMessageAction());
-    
+
     axios.post(API + 'auth/signup', {
         username: username,
         firstName: firstName,
@@ -80,10 +82,11 @@ export const fetchFriendsForFriend = (username) => {
     })
 }
 
-export const searchUsers = (username) => {
+export const searchUsers = (username, current) => {
     return axios.get(API + 'user/search', {
         params: {
             username: username,
+            current: current,
             limit: PAGINATION_SEARCH_LIMIT
         }
     }).then((response) => {
@@ -96,7 +99,7 @@ export const searchUsers = (username) => {
 
 export const deleteUser = (username) => {
     store.dispatch(clearMessageAction());
-    
+
     axios.post(API + 'user/delete', {
         username: username
     }).then((response) => {
@@ -108,7 +111,7 @@ export const deleteUser = (username) => {
 
 export const follow = (username, friend) => {
     store.dispatch(clearMessageAction());
-    
+
     axios.post(API + 'user/follow', {
         username: username,
         friend: friend
@@ -120,7 +123,7 @@ export const follow = (username, friend) => {
 
 export const unfollow = (username, friend) => {
     store.dispatch(clearMessageAction());
-    
+
     axios.post(API + 'user/unfollow', {
         username: username,
         friend: friend
