@@ -55,10 +55,9 @@
 
 ;; COMMENTS
 
-(defn get-comments-for-post "Gets comments for post id and username" [id username]
+(defn get-comments-for-post "Gets comments for post id and username" [post_id username]
 (jdbc/execute! db/datasource
-   ["SELECT comments.* FROM comments LEFT JOIN post ON comments.id = post.id AND comments.username = post.username WHERE post.id = ? AND post.username = ? 
-       ORDER BY comment_timestamp DESC" username] {:builder-fn rs/as-unqualified-maps}))
+   ["SELECT * FROM comments WHERE id = ? AND username = ? ORDER BY comment_timestamp DESC" (Integer/parseInt post_id) username] {:builder-fn rs/as-unqualified-maps}))
 
 (defn add-comment-on-post "Adds comment on post" [id username comment posted_by]
 (let [on (+ (get (jdbc/execute-one! db/datasource ["SELECT COUNT(*) AS count FROM comments WHERE id = ? AND username = ?" id, username] {:builder-fn rs/as-unqualified-maps}) :count) 1)]

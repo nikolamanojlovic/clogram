@@ -139,11 +139,13 @@ export const fetchCommentsForPost = (postId, username) => {
 export const commentPost = (postId, username, comment, postedBy) => {
     store.dispatch(clearMessageAction());
 
-    axios.post(API + 'content/addComment', {
+    return axios.post(API + 'content/addComment', {
         post_id: postId,
         username: username,
         comment: comment,
         posted_by: postedBy
+    }).then((response) => {
+        return fetchCommentsForPost(postId, username);
     }).catch((error) => {
         store.dispatch(addMessageAction(error.data));
     })
@@ -152,10 +154,12 @@ export const commentPost = (postId, username, comment, postedBy) => {
 export const removeComment = (postId, username, ord) => {
     store.dispatch(clearMessageAction());
 
-    axios.post(API + 'content/removeComment', {
+    return axios.post(API + 'content/removeComment', {
         post_id: postId,
         username: username,
         ord: ord
+    }).then((response) => {
+        return fetchCommentsForPost(postId, username);
     }).catch((error) => {
         store.dispatch(addMessageAction(error.data));
     })

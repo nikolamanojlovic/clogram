@@ -7,9 +7,10 @@ import SignUpFrom from '../components/SignUpForm';
 import { FEED_PAGE, PROFILE_PAGE, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET } from '../helpers/constants';
 import { Grid } from "@material-ui/core";
 import { SettingsOutlined, FindInPageRounded } from '@material-ui/icons';
-import { paginatePosts } from '../services/postService';
+import { paginatePosts, fetchCommentsForPost } from '../services/postService';
 import base64 from "base-64";
 import Post from '../components/Post';
+import CommentPopover from '../components/CommentPopover';
 
 const useStyles = makeStyles({
     root: {
@@ -29,11 +30,19 @@ const FeeedPageContent = () => {
     const user = useSelector(state => state.userReducer.user);
     let posts = useSelector(state => state.postsReducer.posts, shallowEqual);
 
+    const [comments, setComments] = useState([]);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [post, setPost] = useState(null);
+
     const classes = useStyles();
 
     useEffect(() => {
         paginatePosts(user.username, PAGINATION_INITAL_PAGE, PAGINATION_OFFSET);
     }, []);
+
+    const _handleClosePopover = () => {
+        setAnchorEl(null);
+    }
 
     const _renderPosts = () => {
         if (posts == null || posts.length === 0) {
@@ -42,14 +51,28 @@ const FeeedPageContent = () => {
 
         let items = [];
         posts.map((post, index) => {
-            items.push(<Post key={index} user={user} post={post} isPreview={false} />);
+            items.push(<Post key={index} user={user} post={post} isPreview={false} openCommentPopoverForPost={_openCommentPopoverForPost} />);
         });
         return items;
+    }
+
+    const _openCommentPopoverForPost = (post) => {
+        fetchCommentsForPost(post.id, post.username).then((data) => {
+            setComments(data);
+        });
+        setAnchorEl(document);
+        setPost(post);
+    }
+
+    const _updateComments = (comments) => {
+        setComments(comments);
     }
 
     return (
         <div className={classes.root}>
             {_renderPosts()}
+            {Boolean(anchorEl) ? <CommentPopover user={user} post={post} comments={comments} open={Boolean(anchorEl)} anchorEl={anchorEl}
+                handleClosePopover={_handleClosePopover} updateComments={_updateComments} /> : <span />}
         </div>
     );
 }

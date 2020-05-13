@@ -91,7 +91,6 @@ const Post = (props) => {
     const classes = useStyles();
 
     const [isLikedByUser, setIsLikedByUser] = useState(props.post.liked_by != null && props.post.liked_by.includes(props.user.username));
-    const [anchorEl, setAnchorEl] = useState(null);
 
     const _renderImage = () => {
         let post = props.post;
@@ -135,12 +134,7 @@ const Post = (props) => {
     }
 
     const _handleOpenCommentPopover = (e) => {
-        e.preventDefault();
-        setAnchorEl(e.currentTarget.parentElement.parentElement);
-    }
-
-    const _handleClosePopover = () => {
-        setAnchorEl(null);
+        props.openCommentPopoverForPost(props.post);
     }
 
     const _likePost = () => {
@@ -188,7 +182,6 @@ const Post = (props) => {
                         {_renderComments()}
                     </CardContent> : <span />}
             </Card>
-            <CommentPopover open={Boolean(anchorEl)} anchorEl={anchorEl} handleClosePopover={_handleClosePopover}/>
         </Fragment>
     );
 }
