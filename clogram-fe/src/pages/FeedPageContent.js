@@ -50,7 +50,7 @@ const FeeedPageContent = () => {
 
         let items = [];
         posts.map((post, index) => 
-            items.push(<Post key={index} user={user} post={post} isPreview={false} openCommentPopoverForPost={_openCommentPopoverForPost} />));
+            items.push(<Post  key={index} user={user} post={post} isPreview={false} openCommentPopoverForPost={_openCommentPopoverForPost} />));
         return items;
     }
 
