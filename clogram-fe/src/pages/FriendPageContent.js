@@ -73,6 +73,7 @@ const useStyles = makeStyles({
     },
     wrapper: {
         maxWidth: '60%',
+        minWidth: '60%',
         float: 'left',
         backgroundColor: "#FFFFFF",
         paddingTop: 20
