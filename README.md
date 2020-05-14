@@ -13,7 +13,7 @@
 <br/>
 <br/>
 <br/>
-<p align="center"> Belgrade, 2019. </p>
+<p align="center"> Belgrade, 2020. </p>
 <br/>
 <br/>
 <br/>
@@ -21,3 +21,11 @@
 ### CloGram ###
 
 Instagram alike app developed as project for Napredne softverske tehnologije.
+
+### Techn stack ###
+
+![CloGram TechStack](https://user-images.githubusercontent.com/17787973/81985646-d4c06380-9636-11ea-9600-e8f37a363832.png)
+
+### ERD ###
+
+![CloGram ERD](https://user-images.githubusercontent.com/17787973/81985739-ec97e780-9636-11ea-8725-6029be4abeb2.png)
