@@ -18,7 +18,7 @@
 <br/>
 <br/>
 
-### CloGram ###
+# CloGram #
 
 Instagram alike app developed as project for Napredne softverske tehnologije.
 
@@ -29,3 +29,6 @@ Instagram alike app developed as project for Napredne softverske tehnologije.
 ### ERD ###
 
 ![CloGram ERD](https://user-images.githubusercontent.com/17787973/81985739-ec97e780-9636-11ea-8725-6029be4abeb2.png)
+
+### UI ###
+
