@@ -22,6 +22,12 @@
 
 Instagram alike app developed as project for Napredne softverske tehnologije.
 
+### Setup ###
+
+1. Checkout project
+2. *docker-compose build
+3. *docker-compose up
+
 ### Techn stack ###
 
 ![CloGram TechStack](https://user-images.githubusercontent.com/17787973/81985646-d4c06380-9636-11ea-9600-e8f37a363832.png)
