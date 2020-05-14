@@ -24,6 +24,10 @@ Instagram alike app developed as project for Napredne softverske tehnologije.
 
 ### Setup ###
 
+Required:
+* Docker
+
+Steps:
 1. Checkout project
 2. *docker-compose build*
 3. *docker-compose up*
