@@ -40,7 +40,7 @@ Steps:
 
 ![CloGram ERD](https://user-images.githubusercontent.com/17787973/81985739-ec97e780-9636-11ea-8725-6029be4abeb2.png)
 
-### UI ###
+### User interface ###
 
 <img width="1680" alt="Screenshot 2020-05-14 at 22 40 43" src="https://user-images.githubusercontent.com/17787973/81985865-223cd080-9637-11ea-8be6-42ab4259c731.png">
 
