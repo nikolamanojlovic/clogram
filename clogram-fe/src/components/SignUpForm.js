@@ -4,8 +4,9 @@ import { TextField, Button, OutlinedInput, InputAdornment, IconButton } from '@m
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import ErrorMessage from './ErrorMessage';
-import { clearMessageAction } from '../actions/messageActions';
+import { addMessageAction } from '../actions/messageActions';
 import { signUp } from '../services/userService';
+import { store } from '../store';
 
 const useStyles = makeStyles({
     formControl: {
@@ -24,8 +25,11 @@ const useStyles = makeStyles({
 
 const _signUp = (e, username, firstName, lastName, email, password) => {
     e.preventDefault();
-    clearMessageAction();
-    signUp(username, firstName, lastName, email, password);
+    if (username === "" || firstName === "" || lastName === "" || email === "" || password === "") {
+        store.dispatch(addMessageAction("sign.up.mandatory.error"))
+    } else {
+        signUp(username, firstName, lastName, email, password);
+    }
 }
 
 const SignUpFrom = () => {
