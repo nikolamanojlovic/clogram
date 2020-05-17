@@ -3,7 +3,7 @@
 <br/>
 <br/>
 <br/>
-<p align="center"> <i>Project for Napredne softverske tehnologije</i> </p>
+<p align="center"> <i>Project for Alati i metode softverskog inzenjerstva</i> </p>
 <h1 align="center"> CloGram </h1>
 <br/>
 <p align="left"> <i>Mentor:</i> </p>
@@ -20,7 +20,7 @@
 
 ### CloGram ###
 
-Instagram alike app developed as project for Napredne softverske tehnologije.
+Instagram alike app developed as project for Alati i metode softverskog inzenjerstva.
 
 ### Setup ###
 
