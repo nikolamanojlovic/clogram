@@ -40,7 +40,7 @@ const LogInPage = () => {
                     Clogram
                 </Typography>
                 <Typography variant="subtitle2">
-                    Instagram alike app developed as project for Napredne softverske tehnologije
+                    Instagram alike app developed as project for Alati i metode softverskog inzenjerstva.
                 </Typography>
             </CardContent>
             <CardContent className={classes.content}>
