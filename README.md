@@ -42,9 +42,9 @@ Steps:
 
 ### User interface ###
 
-<img width="1680" alt="Screenshot 2020-05-14 at 22 40 43" src="https://user-images.githubusercontent.com/17787973/81985865-223cd080-9637-11ea-8be6-42ab4259c731.png">
+<img width="1680" alt="Screenshot 2020-05-18 at 18 54 33" src="https://user-images.githubusercontent.com/17787973/82239536-36374980-9939-11ea-8fe1-89e5863bb1af.png">
 
-<img width="1680" alt="Screenshot 2020-05-14 at 22 41 17" src="https://user-images.githubusercontent.com/17787973/81985878-2963de80-9637-11ea-9dca-8ea92aa33a3d.png">
+<img width="1680" alt="Screenshot 2020-05-18 at 18 54 49" src="https://user-images.githubusercontent.com/17787973/82239569-42bba200-9939-11ea-9422-2b82d9e0d920.png">
 
 <img width="1680" alt="Screenshot 2020-05-14 at 22 43 02" src="https://user-images.githubusercontent.com/17787973/81985888-2cf76580-9637-11ea-8df4-24897c469e64.png">
 
