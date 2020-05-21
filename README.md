@@ -18,9 +18,32 @@
 <br/>
 <br/>
 
-### CloGram ###
+### Verbal description ###
 
-Instagram alike app developed as project for Alati i metode softverskog inzenjerstva.
+CloGram is a photo-sharing web application that enables its users to share photos and view photos of their friends (also called followers). It also offers the possibility to like or comment on photos in order to express their opinion about a photo.
+
+Application is developed as a project for Alati i metode softverskog inzenjerstva.
+
+### List of functionalities ###
+
+Authentication and authorization functionalities:
+* Log in
+* Sign up
+
+Feed functionalities:
+
+* View of photos posted by the user itself and its friends in descending chronological order
+
+Profile functionalities:
+* Preview of photos  posted by the users itself as a grid in descending chronological order
+* Upload/change of a profile photo
+* Remove profile
+
+Posts functionalities:
+* Upload of photo with or without description
+* Like/dislike post
+* Add comment to post
+* Remove comment from a post
 
 ### Setup ###
 
