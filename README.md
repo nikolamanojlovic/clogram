@@ -20,7 +20,7 @@
 
 ### Verbal description ###
 
-CloGram is a photo-sharing web application that enables its users to share photos and view photos of their friends (also called followers). It also offers the possibility to like or comment on photos in order to express their opinion about a photo.
+CloGram is a photo-sharing web application that enables its users to share photos and view photos of their friends (also called followers). It also offers the possibility for users to like or comment on photos to express their opinion about a photo.
 
 Application is developed as a project for Alati i metode softverskog inzenjerstva.
 
