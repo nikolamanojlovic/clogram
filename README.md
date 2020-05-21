@@ -45,6 +45,10 @@ Posts functionalities:
 * Add comment to post
 * Remove comment from a post
 
+Friend functionalities:
+* Follow friend
+* Unfollow friend
+
 ### Setup ###
 
 Required:
