@@ -44,6 +44,7 @@ Posts functionalities:
 * Like/dislike post
 * Add comment to post
 * Remove comment from a post
+* Delete post
 
 Friend functionalities:
 * Follow friend
