@@ -44,6 +44,7 @@ Posts functionalities:
 * Like/dislike post
 * Add comment to post
 * Remove comment from a post
+* View comments in descending chronological order
 * Delete post
 
 Friend functionalities:
