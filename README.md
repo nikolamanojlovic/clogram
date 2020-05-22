@@ -38,6 +38,7 @@ Profile functionalities:
 * Preview of photos  posted by the users itself as a grid in descending chronological order
 * Upload/change of a profile photo
 * Remove profile
+* View of stats: number of posts and number of friends
 
 Posts functionalities:
 * Upload of photo with or without description
@@ -60,6 +61,7 @@ Steps:
 1. Checkout project
 2. *docker-compose build*
 3. *docker-compose up*
+4. http://0.0.0.0:3000/
 
 ### Tech stack ###
 
