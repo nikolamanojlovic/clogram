@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS post (
     photo LONGBLOB,
     post_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     descrip VARCHAR(255),
-    PRIMARY KEY (id, username)
+    PRIMARY KEY (id, username),
+    FOREIGN KEY (username) REFERENCES user(username) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS comments (
@@ -40,7 +41,8 @@ CREATE TABLE IF NOT EXISTS comments (
     comment_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     posted_by VARCHAR(60),
     PRIMARY KEY (id, username, ord),
-    FOREIGN KEY (posted_by) REFERENCES user(username)
+    FOREIGN KEY (posted_by) REFERENCES user(username),
+    FOREIGN KEY (id, username) REFERENCES post(id, username) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS likes (
@@ -50,5 +52,6 @@ CREATE TABLE IF NOT EXISTS likes (
     like_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     liked_by VARCHAR(60),
     PRIMARY KEY (id, username, ord),
-    FOREIGN KEY (liked_by) REFERENCES user(username)
+    FOREIGN KEY (liked_by) REFERENCES user(username),
+    FOREIGN KEY (id, username) REFERENCES post(id, username) ON DELETE CASCADE
 );
