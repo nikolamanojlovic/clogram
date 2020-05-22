@@ -80,6 +80,8 @@ Steps:
 
 <img width="1680" alt="Screenshot 2020-05-14 at 22 54 01" src="https://user-images.githubusercontent.com/17787973/81985905-34b70a00-9637-11ea-99da-6d63e9845b97.png">
 
+<img width="1680" alt="Screenshot 2020-05-22 at 19 00 00" src="https://user-images.githubusercontent.com/17787973/82692945-e02c1400-9c60-11ea-9cd0-b48c0199cb69.png">
+
 <img width="1680" alt="Screenshot 2020-05-14 at 22 54 47" src="https://user-images.githubusercontent.com/17787973/81985913-384a9100-9637-11ea-944a-e4d378f5ac30.png">
 
 <img width="1680" alt="Screenshot 2020-05-14 at 22 55 09" src="https://user-images.githubusercontent.com/17787973/81985918-3c76ae80-9637-11ea-8fdb-b17e3bee9b59.png">
