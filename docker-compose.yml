@@ -5,15 +5,15 @@ services:
         build: ./clogram-db/
         ports: 
            - 3306:3306
-    # clojure_be:
-    #     build: ./clogram/
-    #     ports:
-    #         - 9002:9002
-    #     depends_on:
-    #         - mysql_database
-    # clogram_fe:
-    #     build: ./clogram-fe/
-    #     ports:
-    #         - 3000:3000
-    #     depends_on: 
-    #         - clojure_be
+    clojure_be:
+        build: ./clogram/
+        ports:
+            - 9002:9002
+        depends_on:
+            - mysql_database
+    clogram_fe:
+        build: ./clogram-fe/
+        ports:
+            - 3000:3000
+        depends_on: 
+            - clojure_be
