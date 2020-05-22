@@ -103,7 +103,7 @@ const CommentPopover = (props) => {
     const classes = useStyles();
 
     const [comment, setComment] = useState("");
-    const [comments, setComments] = useState(props.comments); // fore update of child
+    const [comments, setComments] = useState(props.comments); // for update of child
 
     useEffect(() => {
         setComments(props.comments);

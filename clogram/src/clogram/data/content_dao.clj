@@ -28,6 +28,11 @@
       username (get image :filename) (get image :content-type) (file->bytes (get image :tempfile)) description] {:builder-fn rs/as-unqualified-maps})]
     (if (= 0 (get count :next.jdbc/update-count)) (throw (Exception. (str "Could not create post for user " username))))))
 
+(defn remove-post "Remove post" [id username]
+(let [count (jdbc/execute-one! db/datasource
+    ["DELETE FROM post WHERE id = ? AND username = ?" id username] {:builder-fn rs/as-unqualified-maps})]
+  (if (= 0 (get count :next.jdbc/update-count)) (throw (Exception. (str "Could not remove post " id " for user " username))))))
+
 ;; PROFILE
 
 (defn save-profile-picture "Saves profile picture for user" [username image]
@@ -42,13 +47,13 @@
 
 ;; LIKES
 
-(defn like-post "Like post" [id, username, liked_by]
+(defn like-post "Like post" [id username liked_by]
   (let [on (+ (get (jdbc/execute-one! db/datasource ["SELECT COUNT(*) AS count FROM likes WHERE id = ? AND username = ?" id, username] {:builder-fn rs/as-unqualified-maps}) :count) 1)]
     (let [count (jdbc/execute-one! db/datasource
        ["INSERT INTO likes(id, username, ord, liked_by) VALUES (?, ?, ?, ?)" id username on liked_by] {:builder-fn rs/as-unqualified-maps})]
       (if (= 0 (get count :next.jdbc/update-count)) (throw (Exception. (str "Could not like post " id " for user " username " by user " liked_by)))))))
 
-(defn dislike-post "Dislike post" [id, username, liked_by]
+(defn dislike-post "Dislike post" [id username liked_by]
   (let [count (jdbc/execute-one! db/datasource
       ["DELETE FROM likes WHERE id = ? AND username = ? AND liked_by = ?" id username liked_by] {:builder-fn rs/as-unqualified-maps})]
     (if (= 0 (get count :next.jdbc/update-count)) (throw (Exception. (str "Could not dislike post " id " for user " username " by user " liked_by))))))

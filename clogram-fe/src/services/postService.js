@@ -46,6 +46,19 @@ export const createPost = (username, image, description, currentPage) => {
     })
 }
 
+export const removePost = (id, username) => {
+    store.dispatch(clearMessageAction());
+
+    axios.post(API + 'content/removePost', {
+        id: id,
+        username: username
+    }).then((response) => {
+        fetchPostsForUser(username);
+    }).catch((error) => {
+        store.dispatch(addMessageAction(error.data));
+    })
+}
+
 // PROFILE
 export const uploadProfilePicture = (username, image) => {
     store.dispatch(clearMessageAction());

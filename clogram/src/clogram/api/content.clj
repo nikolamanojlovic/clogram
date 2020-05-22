@@ -31,6 +31,13 @@
       (response-utils/response (json/write-str (content-service/create-post (get inputs :username "") (get inputs :image "") (get inputs :description ""))))
       (catch  Exception e (response-utils/status (response-utils/response "create.post.general.error") 400)))))
 
+(defn remove-post "Removes a post for user" [params]
+(let [inputs (get-parameters params)]
+  (try
+    (response-utils/response (json/write-str (content-service/remove-post (get inputs :id "") (get inputs :username ""))))
+    (catch  Exception e (response-utils/status (response-utils/response "remove.post.general.error") 400)))))
+
+
 ;; PROFILE
 
 (defn upload-profile-picture "Uploads profile picture for user" [params]

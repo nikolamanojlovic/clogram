@@ -1,4 +1,5 @@
-export const API = "http://0.0.0.0:9002/"
+// export const API = "http://0.0.0.0:9002/"
+export const API = "http://localhost:9002/"
 
 export const DEFAULT_DATE_TIME_FORMAT = "DD.MM.YYYY HH:mm";
 

@@ -9,6 +9,10 @@
 (defn create-post "Creates post for given username"  [username image description]
   (content-dao/create-post username image description))
 
+(defn remove-post "Removes post for given id and username"  [id username]
+(content-dao/remove-post id username))
+
+
 ;; PROFILE 
 
 (defn upload-profile-picture "Uploads profile picture for user"  [username image]

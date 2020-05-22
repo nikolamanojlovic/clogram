@@ -29,6 +29,7 @@
   ;; CONTENT RELATED API
   ;; POSTS
   (wrap-multipart-params (POST "/content/createPost" req (content/create-post (:multipart-params req))))
+  (POST "/content/removePost" req (content/remove-post req))
   (wrap-params (GET "/content/paginatePosts" params (content/paginate-posts (:query-params params))))
 
   ;; PROFILE

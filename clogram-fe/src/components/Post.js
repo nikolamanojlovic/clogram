@@ -3,8 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, CardHeader, Avatar, CardContent, Divider, CardActions, IconButton } from '@material-ui/core';
 import moment from "moment";
 import { DEFAULT_DATE_TIME_FORMAT } from '../helpers/constants';
-import { FavoriteBorderOutlined, FavoriteRounded, ChatBubbleOutline } from '@material-ui/icons';
-import { likePost, dislikePost } from '../services/postService';
+import { FavoriteBorderOutlined, FavoriteRounded, ChatBubbleOutline, DeleteForeverOutlined } from '@material-ui/icons';
+import { likePost, dislikePost, removePost } from '../services/postService';
 
 const useStyles = makeStyles({
     root: {
@@ -33,6 +33,37 @@ const useStyles = makeStyles({
         width: 300,
         marginBottom: 15,
         objectFit: 'contain'
+    },
+    mediaPriviewDiv: {
+        maxHeight: 300,
+        maxWidth: 300,
+        display: 'inline-block',
+        position: 'relative'
+    },
+    deleteForeverOverlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        opacity: 0,
+        transition: '.5s ease',
+        backgroundColor: '#4CA2CD',
+        '&:hover': {
+            opacity: 1
+        },
+    },
+    deleteForever: {
+        display: 'block',
+        height: '100%',
+        margin: 'auto',
+        '&:hover': {
+            backgroundColor: 'transparent'
+        },
+        color: '#FFFFFF'
+    },
+    deleteForeverIcon: {
+        fontSize: '2em'
     },
     content: {
         textAlign: 'left',
@@ -88,6 +119,13 @@ const Post = (props) => {
 
     const [isLikedByUser, setIsLikedByUser] = useState(props.post.liked_by != null && props.post.liked_by.includes(props.user.username));
 
+    const _removePost = (e) => {
+        e.preventDefault();
+        if (props.isPreview && props.user.username === props.post.username) {
+            removePost(props.post.id, props.post.username);
+        }
+    }
+
     const _renderImage = () => {
         let post = props.post;
 
@@ -96,7 +134,17 @@ const Post = (props) => {
         }
 
         let src = "data:" + post.photo_mime_type + ";base64," + Buffer.from(post.photo).toString("base64");
-        return <img key={props.key} className={props.isPreview ? classes.mediaPriview : classes.media} src={src} />;
+        if (props.isPreview) {
+            return <div className={classes.mediaPriviewDiv}>
+                <div className={classes.deleteForeverOverlay}>
+                    <IconButton className={classes.deleteForever} disableRipple={true} onClick={(e) => _removePost(e)}>
+                        <DeleteForeverOutlined className={classes.deleteForeverIcon}/>
+                    </IconButton>
+                </div>
+                <img key={props.key} className={classes.mediaPriview} src={src} />
+            </div>;
+        }
+        return <img key={props.key} className={classes.media} src={src} />
     }
 
     const _renderLikeButton = () => {
